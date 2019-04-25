@@ -1,0 +1,73 @@
+﻿@model List<Movid.App.Models.Protocol>
+    
+        <div class="row" id="page-heading">
+        <div class="col-md-8">
+            <h3>Protocols</h3>
+            <em>
+                *Protocols (**ie. shoulder impingement, core stabilization, total hip replacement) are collections 
+                of exercises you select, group together once and then save for future use. Simply use the HEP
+                Builder to create your Protocol and save it with a name of your choice. That protocol will 
+                now be searchable via the HEP Builder and added to a HEP Program quickly.
+            </em>
+        </div>
+        <div  class="col-md-4" style="text-align: right">
+            @Html.ActionLink("Create New", "Index", "ProgramBuilder", null, new{@class="btn btn-blue"})<br /><em class="smaller">
+                                                                                                        takes you to the Program builder
+                                                                                                    </em>
+        </div>
+    </div>
+    
+<table class="table table-striped">
+    <thead>
+        <th>Name</th>
+        <th>Created</th>
+        <th>Details</th>
+        <th>Quick Send</th>
+        <th></th>
+    </thead>
+    @foreach(var protocol in Model)
+    {
+        <tr>
+            <td>@protocol.Name</td>
+            <td>@protocol.Created</td>
+            <td >
+                @foreach(var exercise in protocol.Exercises)
+                {
+                    <div style="margin-bottom: 4px">
+                        @exercise.Name
+                        <div style="font-size: 12px;">
+                            @(string.Join("/", @exercise.ExerciseDetails.Where(x=>x.Value !="").Select(y=>y.Shorthand + " " + y.Value)))
+                        </div>
+                    </div>
+                }
+            </td>
+            <td>
+                @using (Html.BeginForm("QuickSend", "Protocol"))
+                {
+                    <input type="hidden" name="protocolId" value="@protocol.Id"/>
+                    <div class="input-group"  style="width: 200px;">
+                        <input type="text" name="email" class="form-control">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">Send</button>
+                        </span>
+                    </div>
+                }
+            </td>
+            <td>
+                 <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Actions <span class="caret"></span>
+                  </button>
+                     <ul class="dropdown-menu" role="menu">
+                         <li><a href="@Url.Action("LoadProtocol", "ProgramBuilder", new{protocolId=protocol.Id})"><i class="icon-edit"></i> Edit</a></li>
+                         <li class="divider"></li>
+                         <li><a href="@Url.Action("Delete", "Protocol", new {protocolId = @protocol.Id})" class="delete-link"><i style="color: #d9534f" class="icon-remove"></i> Delete</a></li>
+                     </ul>
+                </div>
+                
+                
+            </td>
+        </tr>
+    }
+</table>
+    

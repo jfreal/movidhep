@@ -1,0 +1,51 @@
+@model IEnumerable<object>
+
+@*@{ var selectList = (IEnumerable<SelectListItem>)ViewData["DropdownFor." + ViewData.TemplateInfo.HtmlFieldPrefix];
+    var ddMeta = (DropdownMetadata)ViewData["DropdownFor.Metadata." + ViewData.TemplateInfo.HtmlFieldPrefix];
+
+    var oldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix;
+    ViewData.TemplateInfo.HtmlFieldPrefix = "";}
+
+
+<script type="text/javascript">
+    $(function () {
+        $(@("\"div#" + oldPrefix + "_CheckBoxList" + "\"")).parents("form").submit(function () {
+            var checkBoxListDiv = $(@("\"div#" + oldPrefix + "_CheckBoxList" + "\""));
+            var checkedBoxes = checkBoxListDiv.children("input:checkbox:checked");
+            var uncheckedBoxes = checkBoxListDiv.children("input:checkbox:not(:checked)");
+
+            var foreignKeyListDiv = $(@("\"div#" + oldPrefix + "_ForeignKeyList" + "\""));
+            foreignKeyListDiv.empty();
+
+            uncheckedBoxes.each(function () {
+                var name = "Unchecked";
+                $(this).attr("name", name);
+            });
+
+            checkedBoxes.each(function (index) {
+                var name = "@(ddMeta.ValueCollectionExpression)" + "[" + index + "]." + "@(ddMeta.ValueFieldExpression)";
+                $(this).attr("name", name);
+
+                var foreignKeyName = "@(ddMeta.ValueCollectionExpression)" + "[" + index + "]." + "@(ddMeta.ForeignValueFieldExpression)";
+                var foreignKeyValue = "@(ddMeta.ForeignSelectedValue)";
+                foreignKeyListDiv.append("<input type=\"hidden\" name=\"" + foreignKeyName + "\" value=\"" + foreignKeyValue + "\">");
+            });
+        });
+    });
+</script>
+
+<div id="@(oldPrefix + "_CheckBoxList")">
+    @foreach (var item in selectList)
+    {
+        <input type="checkbox"
+            id="@(ddMeta.ValueCollectionExpression + "_" + item.Text + "_" + item.Value)"  
+            name="Unchecked" 
+            value="@(item.Value)" @((item.Selected) ? "checked=\"checked\"" : string.Empty) />
+        <label for="@(ddMeta.ValueCollectionExpression + "_" + item.Text + "_" + item.Value)">@(item.Text)</label><br />
+    }
+</div>
+
+<div id="@(oldPrefix + "_ForeignKeyList")"></div>
+
+@{ ViewData.TemplateInfo.HtmlFieldPrefix = oldPrefix;}
+*@

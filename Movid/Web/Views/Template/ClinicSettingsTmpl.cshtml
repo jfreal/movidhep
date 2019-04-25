@@ -1,0 +1,93 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-sm-8">
+        <a href="/clinics/#/"><- back to clinics</a>        
+
+        <h3>Edit Settings - {{clinic.name}}</h3>
+        <em>Include details about your clinic so your patients always know how to reach you.</em><br />
+
+        <form role="form" name="newClinicForm">
+            <div >
+                <div class="form-group">
+                    <label class="control-label">Clinic Name</label>
+                    <div>
+                        <input class="form-control" type="text" ng-model="clinic.name" />
+                    </div>
+                </div>
+
+                <div class="bordered"></div>
+
+                <div class="form-group">
+                    <label class="control-label">Website</label>
+                    <div>
+                        <input class="form-control" type="text" ng-model="clinic.website" />
+                    </div>
+                </div>
+
+                <div class="bordered"></div>
+
+                <div class="form-group">
+                    <label class="control-label">Phone</label>
+                    <div>
+                        <input class="form-control" type="text" ng-model="clinic.phone" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Email</label>
+                    <div>
+                        <input class="form-control" type="text" ng-model="clinic.email" />
+                    </div>
+                </div>
+
+                <div class="bordered"></div>
+
+                <div class="form-group">
+                    <label class="control-label">Address</label>
+                    <div>
+                        <input class="form-control" type="text" ng-model="clinic.address" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Address 2</label>
+                    <div>
+                        <input class="form-control" type="text" ng-model="clinic.address2" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">City, State Zip</label>
+                    <div>
+                        <input class="form-control" type="text" ng-model="clinic.cityStateZip" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    
+                        <div class="btn-group">
+                            <a href="#/" class="btn btn-blue">Cancel</a>                                
+                            <button class="btn btn-blue" ng-click="saveClinic()">Save Settings</button>
+                        </div>
+                            
+                    
+                </div>
+
+            </div>
+            
+        </form>
+    </div>
+    <div class="col-sm-4">
+        <h3>Clinic Logo</h3>
+        <em>appears at the top of your plan</em>
+        <div>
+            <input  type="file" ng-file-select="onFileSelect($files)" title="Upload a Logo" >
+            <br />
+
+            <img id="clinic-logo" ng-attr-src="/images/cliniclogo/{{clinic.id}}" class="full-spacing" />        
+            <p>
+                <em>we resize your logo so it looks its best, don't worry about the size here</em>
+            </p>
+        </div>
+    </div>
+</div>

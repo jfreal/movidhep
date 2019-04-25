@@ -1,0 +1,45 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-sm-8">
+        <a href="/clinics/#/"><- back to clinics</a>       
+        <h3>Edit a User</h3>
+        <div class="row">
+            <div class="col-sm-12">
+                <form role="form" name="editUserForm">
+                    <div class="form-group">
+                        <label for="name">Full Name (optional)</label>
+                        <input type="text" class="form-control" name="name" ng-model="editedUser.name" placeholder="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="name" name="email" ng-model="editedUser.email" placeholder="email" required>
+                        <div data-ng-show="(editedUserForm.email.$error.required || editedUserForm.email.$error.email ) && editedUserForm.email.$dirty">
+                            A valid Email address is Required
+                        </div>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <a href="#/" class="btn btn-blue">Cancel</a>
+                        <input type="submit" class="btn btn-blue" ng-disabled="!editUserForm.$valid" ng-click="save()" value="Save User"></input>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <h3>User Headshot</h3>
+        <em>appears at the top of your plan</em>
+        <div>
+            <input  type="file" ng-file-select="onFileSelect($files)" title="Upload a Headshot" >
+            <br />
+
+            <img id="user-headshot" ng-attr-src="/images/userheadshot/{{editedUser.id}}" class="full-spacing" ng-cloak />        
+            <p>
+                <em>we resize your headshot so it looks its best, don't worry about the size here</em>
+            </p>
+        </div>
+    </div>
+</div>

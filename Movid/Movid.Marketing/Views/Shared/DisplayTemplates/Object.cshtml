@@ -1,0 +1,79 @@
+@*
+
+@*how far down the graph we should display templates for*@
+@if (ViewData.TemplateInfo.TemplateDepth > 2)
+{
+    @(ViewData.ModelMetadata.SimpleDisplayText)
+}
+else
+{
+    <table cellpadding="0" cellspacing="0" border="0" class="@(ViewData.TemplateInfo.TemplateDepth == 1 ? "editor-table" : "sub-editor-table")">    
+    @{ var nonHiddenPropertiesToDisplay = ViewData.ModelMetadata.Properties.Where(pm => 
+            (pm.ShowForEdit || ( !pm.ShowForEdit && pm.ShowForDisplay )) && !ViewData.TemplateInfo.Visited(pm) && pm.TemplateHint != "HiddenField");
+        int counter = 1;
+
+        Stack<string> nestedPropertyNames = new Stack<string>();}
+ @foreach (var prop in nonHiddenPropertiesToDisplay)
+        {
+            @*@if (prop.HideSurroundingChrome) {
+                @(Html.Editor(prop.PropertyName)) 
+            } else {*@
+
+            while (nestedPropertyNames.Count > 0 && (prop.AdditionalValues.ContainsKey("NestedContainer") && nestedPropertyNames.Peek() != (string)prop.AdditionalValues["NestedContainer"] || !prop.AdditionalValues.ContainsKey("NestedContainer")))
+            {
+                         nestedPropertyNames.Pop();
+
+                        </table>
+                    </td>
+                </tr>
+            }
+
+            <tr class="input-row">
+                <td class="label-col">
+                    <span style="text-align: right;" class="editor-label">
+                        @*<span style="color: #666; ">@(counter)</span>*@
+
+                        @if (!string.IsNullOrWhiteSpace(prop.DisplayName)) {
+                            <span id="@(prop.PropertyName + "Label")" class="annotatedLabel" style="cursor: help;">@(prop.DisplayName)</span>:
+                        }
+                    </span>
+                </td>
+                <td class="value-col">
+                    @if( !string.IsNullOrWhiteSpace(prop.Description)) {
+                        <span class="editor-description">
+                            @(prop.Description)                    
+                        </span><br />                        
+                    }
+                    <span class="editor-field">
+                        @if( prop.ShowForEdit ) {
+                            @(Html.Display(prop.PropertyName))                
+                            @(Html.ValidationMessage(prop.PropertyName, "*"))
+                        }
+                    
+                        @if( !prop.ShowForEdit ) {
+                            @(Html.Display(prop.PropertyName))                
+                        }
+                    </span>
+
+                    @if (nonHiddenPropertiesToDisplay.Any(@p => @p.AdditionalValues.ContainsKey("NestedContainer") && (string)@p.AdditionalValues["NestedContainer"] == prop.PropertyName))
+                    {
+                        @{ nestedPropertyNames.Push(prop.PropertyName);}
+
+                        <table>
+                        @{ continue;}
+
+                    }
+                </td>
+            </tr>
+        @*}*@
+
+    @{ counter++;}}
+
+    </table>
+
+    @{ var hiddenProperties = ViewData.ModelMetadata.Properties.Where(pm => pm.TemplateHint == "HiddenField");}
+ @foreach( var prop in hiddenProperties ) {
+        @(Html.Display(prop.PropertyName))                
+    }
+}
+*@

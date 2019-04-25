@@ -1,0 +1,21 @@
+<div id="content-wrapper">
+                
+
+<div class="@(this.ViewContext.RouteData.Values["action"] + Model.GetType().Name)" >
+        
+    @if (!this.ViewData.ModelState.IsValid) {
+        <div class="alert alert-error">
+            @Html.ValidationSummary()
+        </div>
+    }
+
+    <h2>@this.ViewContext.RouteData.Values["action"] new @Model.GetType().Name.Replace("ViewModel", "")</h2>
+    <a href="@Url.Action("List")" >Back to Grid</a>
+    <div class="form-horizontal">
+        @using(Html.BeginForm()){
+            @Html.EditorForModel()
+            <input type="submit" value="Save Changes" class="btn btn-blue fifteen-margin-top" /> <span>* Required Field</span>
+        }        
+    </div>
+</div>
+</div>

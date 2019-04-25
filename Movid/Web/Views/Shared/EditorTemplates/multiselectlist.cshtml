@@ -1,0 +1,42 @@
+
+@*//this is kinda hackish, may need some work sometime
+    var selects = (IEnumerable<SelectListItem>)ViewData["DropdownFor." + ViewData.TemplateInfo.HtmlFieldPrefix];
+    
+    if( selects != null )
+    {
+        var selectList = new List<SelectListItem>(selects);
+    
+        var ddMeta = (DropdownMetadata)ViewData["DropdownFor.Metadata." + ViewData.TemplateInfo.HtmlFieldPrefix];
+
+        //hacks for select other lits
+        var otherOption = selects.FirstOrDefault(kv => kv.Text == "Other");
+        var otherValue = "";
+
+        if (otherOption != null)
+        {
+            otherValue = otherOption.Value;
+        }
+
+        var oldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix;
+        ViewData.TemplateInfo.HtmlFieldPrefix = "";
+
+
+        %>
+
+        @foreach( var item in selectList ) 
+           {
+               //damn static language
+               item.Selected = ((int[]) ddMeta.SelectedValue).Contains(int.Parse(item.Value == "" ? "0" : item.Value ));
+               
+           }
+
+        @(Html.ListBox(ddMeta.ValueFieldExpression, selectList))
+        
+        @if( otherOption != null ) {
+            <input type="hidden" value="@(otherValue)" name="@(ddMeta.ValueFieldExpression)">
+        }
+
+        @{ ViewData.TemplateInfo.HtmlFieldPrefix = oldPrefix;}
+
+
+}*@

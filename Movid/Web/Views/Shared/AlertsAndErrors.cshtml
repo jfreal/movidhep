@@ -1,0 +1,52 @@
+﻿@using Movid.Shared.Infrastructure.Web
+
+@if(Html.HighFives().Any())
+{
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        @foreach(var highFive in Html.HighFives())
+        {
+            <span> <i class="icon-ok" style="color: #468847"></i> @highFive</span><br />
+        }
+    </div>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        @foreach (ModelState modelState in ViewData.ModelState.Values)
+        {
+            foreach (ModelError error in modelState.Errors)
+            {
+                <span> <i class="icon-exclamation" style="color: #d9534f"></i> @error.ErrorMessage</span>
+            }
+        }
+    </div>
+}
+
+@if (Html.Warnings().Any())
+{
+    <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        @foreach(var highFive in Html.Warnings())
+        {
+            <span> <i class="icon-exclamation" style="color: #d9534f"></i> @highFive</span><br />
+        }
+    </div>
+}
+
+
+<div ng-hide="errors.length == 0" class="alert alert-danger alert-dismissable" ng-cloak>
+    <button type="button" class="close" ng-click="clearErrors()">&times;</button>
+    <ul>
+        <li ng-repeat="error in errors" >{{error}}</li>
+    </ul>
+</div>
+
+<div ng-hide="highFives.length == 0" class="alert alert-success alert-dismissable" ng-cloak>
+    <button type="button" class="close" ng-click="cleaHighFives()">&times;</button>
+    <ul>
+        <li ng-repeat="highFive in highFives">{{highFive}}</li>
+    </ul>
+</div>

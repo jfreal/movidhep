@@ -1,0 +1,113 @@
+﻿@section PageTitle{
+    Patient Retention Calculator
+}
+
+@section PageDescription{
+    Calculate how much a missed visit costs your clinic. How much revenue are you leaving on the table when patients don't show?
+}
+
+<h2 class="no-top-margin">Calculate your Patient Retention Rate</h2>
+<div class="row form-horizontal" id="prr-calculator">
+    <div class="col-lg-6">
+        <h3>Clinic Information</h3>
+        <div class="form-group">
+            <label class="control-label col-lg-6">Avg Patient Visits Approved:</label>
+            <div class="col-lg-4">
+                <input type="text" class="form-control" data-bind="value: visitsApproved"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-6">Avg Patient Visits Attended:</label>
+            <div class="col-lg-4">
+                <input type="text" class="form-control" data-bind="value: visitsAttended"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-6">Avg Per Visit Reimbursement Rate:</label>
+            <div class="col-lg-4">
+                <input type="text" class="form-control" data-bind="value: reimbursementRate"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-6">Patients Seen Per Year:</label>
+            <div class="col-lg-4">
+                <input type="text" class="form-control" data-bind="value: yearlyPatients"/>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <h3>The Bottom Line</h3>
+        <div class="form-group">
+            <label class="control-label col-lg-6">Avg Patient Visits Attended</label>
+            <div class="col-lg-4">
+                <p class="form-text">
+                   <span data-bind="text: patientRetentionRate"></span>%
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-6">% of Revenue Lost:</label>
+            <div class="col-lg-4">
+                <p class="form-text">
+                <span data-bind="text: lostRevenuePercentage" ></span>%
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-6">Visits Lost per Patient:</label>
+            <div class="col-lg-4">
+                <p data-bind="text: lostVisitsPerPatient" style="margin-top: 5px;"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-lg-6">Yearly Amount of Lost Revenue:</label>
+            <div class="col-lg-4">
+                <p class="form-text">
+                    $<span data-bind="text: lostRevenue"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+@section PageJavascript
+{
+    <script src="/Content/js/knockout-2.2.0.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        
+        function viewModel() {
+            this.visitsAttended = ko.observable(0);
+            this.visitsApproved = ko.observable(0);
+            this.reimbursementRate = ko.observable(0);
+            this.yearlyPatients = ko.observable(0);
+
+            this.patientRetentionRate = ko.computed(function() {
+
+                if (this.visitsApproved() == 0)
+                    return 0;
+
+                return ((this.visitsAttended() / this.visitsApproved()) * 100).toFixed(2);
+            }, this);
+
+            this.lostRevenuePercentage = ko.computed(function () {
+
+                if (this.patientRetentionRate() == 0)
+                    return 0;
+
+                var num = this.patientRetentionRate();
+                return ((num * -1) + 100).toFixed(2);
+            }, this);
+
+            this.lostVisitsPerPatient = ko.computed(function() {
+                return this.visitsApproved() - this.visitsAttended();
+            }, this);
+            
+            this.lostRevenue= ko.computed(function () {
+                return ((this.yearlyPatients() * this.reimbursementRate())).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+            }, this);
+        }
+
+        ko.applyBindings(new viewModel());
+    </script>
+}

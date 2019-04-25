@@ -1,0 +1,110 @@
+﻿@using Movid.Marketing.Application
+@section PageTitle{
+    Physical Therapy Exercise Handouts Hall of Shame
+}
+
+@section PageDescription{
+   List Of All Image Gallery
+}
+
+<link href="~/Content/css/blueimp-gallery.min.css" rel="stylesheet" />
+<link href="~/Content/css/bootstrap-image-gallery.min.css" rel="stylesheet" />
+<center>
+<h1 class="no-top-margin">Exercise Handout Hall of Shame</h1>
+<p>
+    Impossible to understand exercise handouts sent to us by people who prefer video based exercise programs
+
+</p>
+</center>
+<div id="blueimp-gallery" class="blueimp-gallery fifteen-margin-top">
+    <!-- The container for the modal slides -->
+    <div class="slides"></div>
+    <!-- Controls for the borderless lightbox -->
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+    <!-- The modal dialog, which will be used to wrap the lightbox content -->
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body next"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left prev">
+                        <i class="glyphicon glyphicon-chevron-left"></i>
+                        Previous
+                   
+                    </button>
+                    <button type="button" class="btn btn-primary next">
+                        Next
+                       
+                        <i class="glyphicon glyphicon-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div id="links">
+            <a href="~/Content/img/hallofshame/photo.JPG" title="photo" data-gallery>
+                <img src="~/Content/img/hallofshame/photo.JPG" width="200px" alt="photo">
+            </a>
+            <a href="~/Content/img/hallofshame/image08.JPG" title="image08" data-gallery>
+                <img src="~/Content/img/hallofshame/image08.JPG" width="200px" alt="image08">
+            </a>
+        </div>
+
+
+        <div id="links" style="margin-top: 15px">
+            <a href="~/Content/img/hallofshame/011.JPG" title="Pretty sure doing this exercise the right way makes you fall over." data-gallery>
+                <img src="~/Content/img/hallofshame/011.JPG" width="200px" alt="Pretty sure doing this exercise the right way makes you fall over.">
+            </a>
+            <a href="~/Content/img/hallofshame/image.jpeg" title="image" data-gallery>
+                <img src="~/Content/img/hallofshame/image.jpeg" width="200px" alt="image">
+            </a>
+        </div>
+
+    </div>    
+    <div class="col-md-4">
+        
+        <div class="orange-call-to-action">
+            <h3>
+                Paper handouts are terrible, upgrade to video instead!
+            </h3>
+            <p class="fifteen-margin-top" style="font-size: 16px; margin-top:30px">
+                30 day free trial, nothing to download,
+                hundreds of video based exercises!
+            </p>
+        
+            <div class="row" class="fifteen-margin-top" style="font-size: 16px; margin-top:30px">
+                <div class="col-xs-4"><i class="icon-hand-down icon-3x pull-right" style="color:#faa732"></i></div>
+                <div class="col-xs-8" style="font-size: 16px">Start sending video home exercise programs:</div>
+            </div>
+      
+            <form action="@Html.RegisterLink()" method="get" novalidate>
+                <strong>Email:</strong>
+                <input type="email" value="" placeholder="email address" name="email" class="form-control" id="mce-EMAIL">
+                   
+                <input type="submit" value="Start Sending Videos" name="subscribe" class="form-control btn btn-orange">
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+@section PageJavascript
+{
+<script src="~/Content/js/jquery.blueimp-gallery.min.js"></script>
+<script src="~/Content/js/bootstrap-image-gallery.min.js"></script>
+}

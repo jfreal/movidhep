@@ -1,0 +1,121 @@
+﻿@using Movid.App.Application
+@model Movid.App.Models.Protocol
+ 
+@using (Html.BeginForm("AutomatedMarketingProtocol", "Protocol"))
+{
+    <div class="row">
+   
+        <div class="col-md-4">
+            <h3>Email Details</h3>
+            Enabled @Html.CheckBoxFor(x=>x.MarketingPlan.Enabled)
+        
+            <div>
+                <h4>Message</h4>
+                <em>The message at the top of the email</em>
+                <textarea name="greeting">@Model.MarketingPlan.Greeting</textarea>
+            </div>
+        </div>
+        <div class="col-md-4 automated-Program-options">
+            <h3>Options</h3>
+            <strong>Patient Status:</strong>
+        
+            <div class="spaced-and-bordered">
+                <em>only use patients with this status</em><br /><br />
+                @(Html.EnumDropDownListFor(x => x.MarketingPlan.PatientStatus, new {@class = "form-control"}) )
+            
+            </div>
+        
+            <div class="spaced-and-bordered">
+                <strong>Trigger Options:</strong><br />
+                <em>send message and protocol</em><br /><br />
+                <input type="text" class="form-control" name="daysAfter" style="width: 40px; display: inline" value="@Model.MarketingPlan.DaysAfter"/> Days After:<br />
+                <br />
+                @(Html.EnumDropDownListFor(x => x.MarketingPlan.TriggerOptions, new {@class = "form-control"}) )
+             
+            </div>
+            <div class="spaced-and-bordered">
+                <strong>Having been prescribed:</strong><br />
+                <em>select the exercises and/or categories, for example send this message to just patients who have
+                    been prescribed a lower back message
+                </em><br /><br />
+
+                <table style="width: 100%">
+                    <tr>
+                        <td><input type="text" id="filter-typeahead" class="typeahead form-control" /></td>
+                        <td><button id="add-filter-rule" class="btn"><i class="icon-plus-sign"></i></button></td>
+                    </tr>
+                </table>
+                <ul id="filter-list">
+                    @foreach (var filterRule in Model.MarketingPlan.FilterRule)
+                    {
+                        <li>
+                            <input type="hidden" name="filterRules" value="@filterRule"/>
+                            @filterRule
+                        </li>
+                        
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+          
+            <h3>Exercises</h3>
+            @foreach (var exercise in Model.Exercises)
+            {
+                <div class="media">
+                    <img class="media-object exercise-list-summary-image pull-left" src="/images/largethumb/@exercise.Id" alt="...">
+                  
+                    <div class="media-body">
+                        <h4 class="media-heading">@exercise.Name</h4>
+                        <p style="font-size: 11px">@exercise.Description</p>
+                        @(string.Join("/", @exercise.ExerciseDetails.Where(x => x.Value != "").Select(y => y.Shorthand + " " + y.Value)))
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+     <div class="row">
+            <div class="col-lg-12">
+                <input type="submit" value="Save" class="btn btn-orange btn-large"/>
+            </div>
+        </div>
+}
+
+@section PageJs{
+    <script src="~/Content/js/typeahead.min.js"></script>
+    <script src="~/Content/js/hogan.js"></script>
+    <script>
+        $('.typeahead').typeahead([
+          {
+              name: 'exercises',
+              header: '<h5 class="league-name">Exercises</h5>',
+              remote: '/library/exercises/%QUERY'
+              //,template: '<p><strong>{{value}}</strong> – {{year}}</p>',
+              //engine: Hogan
+          },
+        {
+            name: 'categories',
+            header: '<h5 class="league-name">Categories</h5>',
+            remote: '/library/categories/%QUERY'
+            //,template: '<p><strong>{{value}}</strong> – {{year}}</p>',
+            //engine: Hogan
+        }]);
+
+        $('.typeahead').on('typeahead:selected', function(datum, d) {
+            console.log(datum);
+            console.log(d);
+        });
+        
+        $('.typeahead').on('typeahead:autocompleted', function (datum, d) {
+            console.log(datum);
+            console.log(d);
+        });
+
+        $('#add-filter-rule').click(function() {
+            var typeaheadValue = $('#filter-typeahead').val();
+            $('#filter-list').append('<li>' + typeaheadValue + '<input type=hidden name=filterrule value="' + typeaheadValue + '"></li>');
+            return false;
+        });
+        
+    </script>
+}

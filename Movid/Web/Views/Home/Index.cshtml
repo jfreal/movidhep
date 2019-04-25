@@ -1,0 +1,52 @@
+﻿@using Movid.App.Application
+@using Movid.Shared
+@model dynamic
+
+
+
+<h3>Getting Started with Movid HEP</h3>
+        <p>Learn how to take advantage of Movid's powerful home exercise program and marketing features by completing the following tasks.</p>
+<div class="row bordered">
+    <div class="col-md-6 ">
+       
+   
+        <div class=""> 
+
+            <h4>Step 1: Customize your Settings - @Html.Partial("Partials/OnboardingTaskStatus", OnboardingTask.SavedSettings.ToString())</h4>
+            <p>
+                Your clinic's information should be front and center when communicating with your customers.  
+            </p>
+    
+            <p>
+                To customize your settings go to the <a href="@Html.ActionSlash("ClinicsSpa", "Clinic")">clinic management page</a> and simply type in the information unique to your clinic and hit save.
+            </p>
+        </div>
+
+           
+    </div>
+    <div class="col-md-6">
+        <p><strong>Video tutorial coming soon!</strong></p>  
+        <p>
+            <em>this feature has changed recently and the accompanying video is in the process of being created</em>            
+
+        </p>
+    </div>
+    </div>
+<div class="row bordered">
+    <div class="col-md-6">
+    
+        <h4>Step 2: Send your First Program with the HEP Builder - @Html.Partial("Partials/OnboardingTaskStatus", OnboardingTask.CreatedProgram.ToString())</h4>
+        <p>
+            The Home Exercise Program is the key to using Movid's powerful marketing tools.  To create a Program use our HEP builder.  </p>
+        
+        <p>You can get to the HEP Builder by clicking the link on the top 
+            menu or clicking  @Html.ActionLink("here", "Index", "ProgramBuilder").
+        </p>
+    </div>
+        <div class="col-md-6">
+            <div class=" embed-container">
+                <iframe src="https://player.vimeo.com/video/76149049?byline=0&amp;color=ffffff" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> <p>Quadraped.mov from <a href="http://vimeo.com/user19571855">Movid</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+            </div>
+        </div>
+</div>
+

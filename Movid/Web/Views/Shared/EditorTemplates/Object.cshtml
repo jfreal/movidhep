@@ -1,0 +1,55 @@
+
+
+
+@*how far down the graph we should display templates for*@
+@if (ViewData.TemplateInfo.TemplateDepth > 99)
+{
+    @(ViewData.ModelMetadata.SimpleDisplayText)
+}
+else
+{
+
+    var nonHiddenPropertiesToDisplay = ViewData.ModelMetadata.Properties.Where(pm => (pm.ShowForEdit || ( !pm.ShowForEdit && pm.ShowForDisplay )) && !ViewData.TemplateInfo.Visited(pm) && pm.TemplateHint != "HiddenField");
+        int counter = 1;
+    
+        foreach (var prop in nonHiddenPropertiesToDisplay) 
+        {
+            <div class="form-group">
+                 <label class="control-label col col-lg-2" >
+                        @(prop.IsRequired || prop.AdditionalValues.ContainsKey("ShowAsRequired") ? "*" : "") 
+                            
+                        @if (!string.IsNullOrWhiteSpace(prop.DisplayName))
+                            {
+                            @(prop.DisplayName)
+                        }
+                    
+                </label>
+                
+              @*      @if (!string.IsNullOrWhiteSpace(prop.Description))
+                        {
+                        <span class="editor-description">
+                            @(prop.Description)                    
+                        </span><br />                        
+                    }*@
+                    <div class="col col-lg-10">
+                        @if (prop.ShowForEdit)
+                            {
+                            @(Html.Editor(prop.PropertyName))                
+                            @(Html.ValidationMessage(prop.PropertyName, ""))
+                        }
+                    
+                        @if (!prop.ShowForEdit)
+                            {
+                            @(Html.Display(prop.PropertyName))                
+                        }
+                    </div>
+                
+            </div>
+            }
+    
+
+var hiddenProperties = ViewData.ModelMetadata.Properties.Where(pm => pm.TemplateHint == "HiddenField");
+ foreach( var prop in hiddenProperties ) {
+        @(Html.Hidden(prop.PropertyName))                
+    }
+}

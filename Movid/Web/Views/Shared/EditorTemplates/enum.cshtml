@@ -1,0 +1,13 @@
+@model Enum
+
+@{
+    var values = from Enum e in Enum.GetValues(Model.GetType())
+                 select new {Id = e, Name = e};
+}
+  
+  <select  name="@this.ViewContext.ViewData.ModelMetadata.PropertyName" class="form-control" >
+@foreach( var v in values )
+  {
+      <option value="@v.Id" @(Equals(Model, v.Id) ? "selected=true" : "")>@v.Name</option>
+  }
+  </select>

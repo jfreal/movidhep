@@ -1,0 +1,32 @@
+﻿@using System.Configuration
+@model Movid.Shared.Model.Exercise
+@{
+    
+    Layout = null;
+}
+
+@if (ConfigurationManager.AppSettings["TradeShowMode"] == "false")
+{
+    <iframe src="https://player.vimeo.com/video/@Model.VideoId" 
+            width="500" 
+            height="281" 
+            frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+}
+else
+{
+  
+   <!-- flowplayer depends on jQuery 1.7.1+ (for now) -->
+   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+   <!-- include flowplayer -->
+    <script type="text/javascript" src="/Content/js/flowplayer.min.js"></script>
+    
+       <!-- the player -->
+   <div class="flowplayer" data-swf="flowplayer.swf" >
+      <video>
+         
+         <source type="video/mp4" src="/localvideo/SINGLE-ARM WAND FLEXTION.mp4">
+         
+      </video>
+   </div>
+}

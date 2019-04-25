@@ -1,0 +1,48 @@
+﻿@model Movid.App.Models.UserInvitationVm
+
+@{
+    ViewBag.Title = "Sign up for an account";
+}
+
+
+<h3>Accept your Invitation</h3>
+    <p>
+        <strong>@Model.From.Name</strong> from @Model.Clinic.Name has invited you to create an account at Movid HEP.  Enter a password
+below and we'll set you up with an account.
+</p>
+
+
+<div class="row">
+    <div class="col-md-12">
+        
+
+    @using (Html.BeginForm("Invite", "Account", null, FormMethod.Post, new {@class="form-horizontal"})) {
+
+        <div class="form-group">
+            <label class="control-label col-lg-2">Email</label>
+            <div class="col-sm-4">
+                <div class="form-text">@Model.To.Email</div>
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <label class="control-label col-lg-2">Password</label>
+            <div class="col-lg-4">
+                <input type="password" name="password" class="form-control" />
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <label class="control-label col-lg-2">Confirm Password</label>
+            <div class="col-lg-4">
+                <input type="password" name="confirmPassword" class="form-control"/>
+            </div>
+        </div>
+    
+        @Html.AntiForgeryToken()
+        <input type="submit" value="Join" class="btn btn-blue btn-lg fifteen-margin-top" />
+}
+
+
+    </div>
+</div>

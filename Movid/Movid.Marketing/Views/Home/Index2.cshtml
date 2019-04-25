@@ -1,0 +1,165 @@
+﻿@using Movid.Marketing.Application
+@using Movid.Shared.Infrastructure
+@using Movid.Web.Infrastructure
+@model List<Movid.Shared.Model.BlogEntry>
+
+@section PageTitle{
+    Movid HEP - Email your patients professional physical therapy exercise videos.
+}
+
+@section PageDescription{
+    Home page of Movid Home Exercise Programs
+}
+<div class="row">
+    
+    <div id="main-marketing-message" class="col col-md-12">
+                
+        <center>
+            <h1 class="no-top-margin">Throw Away your Paper Handouts</h1>
+                    
+            <h2 style="color: #999">Send your Patients Professional Exercise Videos</h2>
+        </center>
+    </div>
+    @*                <p>
+                    We built Movid around the idea that home exercise program are not just an integral component of treatment, but also an <strong>underutilized
+                    marketing opportunity</strong>. Stand out from the competition by providing your patients with an extra level of service with high definition, 
+                    easy to follow and impossible to lose video based home exercise program. All exercises are customizable giving you the opportunity 
+                    to include your own custom descriptions and parameters. 
+
+                </p>*@
+            
+    @*                <div class="btn-group fifteen-margin-top fifteen-margin-bottom">
+                    <a href="@Html.RegisterLink()" class="btn btn-lg btn-orange">
+                        <i class="fam-status-offline"> </i> Free Trial
+                    </a>
+                    <a href="@Url.Action("Buy", "Content")" class="btn btn-lg btn-orange">
+                        <i class="fam-status-offline"> </i> Buy Now
+                    </a>
+                </div>*@
+
+</div>
+
+<div class="middle-panel">
+    <div class="row">
+        <div class="col-md-6">
+            <div class=" embed-container">
+                <iframe src="http://player.vimeo.com/video/76365778?byline=0&amp;color=ffffff" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> <p>Quadraped.mov from <a href="http://vimeo.com/user19571855">Movid</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="cta">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <h3><i class="icon-hand-down icon-3x pull-left" style="color:#faa732"></i>    </h3>
+                    </div>
+                    <div class="col-xs-10">
+                        <h3>
+                     Your physical therapy clinic could start using Movid HEP in 60 seconds
+                </h3>
+                <p class="fifteen-margin-top" style="font-size: 16px; margin-top:30px">
+                    30 day free trial, no commitment,
+                    hundreds of video based exercises!
+                </p>        
+                    </div>
+                </div>
+
+                <form action="@Html.RegisterLink()" method="get" novalidate class="fifteen-margin-top">
+                    <strong>Email:</strong>
+                    <input type="email" value="" placeholder="email address" name="email" class="form-control" id="mce-EMAIL">
+                   
+                    <input type="submit" value="Start Sending Videos" name="subscribe" class="form-control btn btn-orange">
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12 top-margin-lg text-center light-gray">
+        <h4>For physical therapy clinics who want to commit to a better standard of care.</h4>
+    </div>
+</div>
+
+<div class="row no-negative-margin top-margin-lg">
+    <div class="col col-md-6">
+        <h3 class="top-margin-lg"><i class="icon-comments-alt"></i> Connect via Email</h3>
+
+        <div class="light-gray" >
+            <p>Connect with your patients with email a medium they use a dozen times a day.  Don't let them forget about the excellent care you are providing.</p>
+            <p><strong>Always available</strong>, impossible to lose.</p>
+        </div>
+
+        <h3 class="top-margin-lg"><i class="icon-medkit"></i> Provide Better Care</h3>
+        <div class="light-gray" >
+            <p>
+                Studies have shown video to be an <strong>effective and important</strong> teaching tool in the modern world.
+            </p>
+            <p>
+                <em>"Live and videotaped modeling are <b>more effective</b> than a handout alone for achieving performance accuracy of a basic exercise program, as measured by immediate and delayed retention tests."</em> 
+            </p>
+            <p>
+                <em>"People in the handout group may <b>not have understood the proper exercise form</b>."</em>
+            </p>
+            <p style="font-size: 12px">Reo JA, Mercer VS.&nbsp;<a rel="nofollow" target="_blank" href="http://www.ncbi.nlm.nih.gov/pubmed/?term=Reo+JA,+Mercer">Effects of live, videotaped, or written instruction on learning an upper-extremity exercise program</a>. Physical Therapy 2004; 84:622-33</p>
+        </div>
+
+        <h3 class="top-margin-lg"><i class="icon-heart-empty"></i> Patients Love Video</h3>
+        <p>Feedback we've found on physical therapy exercise videos:</p>
+        
+        <ul class="love-ul">
+            <li>"Thank you! Thank you! Thank you! This video is so helpful!"
+                <br>
+                <br>
+            </li>
+            <li>"Great exercise!! thanks."
+                <br>
+                <br>
+            </li>
+            <li>"Thanks for this video, i had a shoulder dislocation 2'ce and really want to follow these. Heads up"
+                <br>
+                <br>
+            </li>
+            <li>"Thank you I play linemen and catcher and this will help my knees a lot I will be using your website a lot for other muscles because I get sore a lot from baseball. "
+                <br>
+            </li>
+        </ul>
+    </div>
+    
+  
+
+    <div class="col col-md-6">
+        <h3 class="top-margin-lg"><i class="icon-smile"></i> What people are saying:</h3>
+        <blockquote>
+            <p>"The biggest problem [with physical therapy] is  
+                compliance. They do the exercise and forget it by the 
+                time they get home."</p>
+            <small>Jennifer Emmons, Doctor of Osteopathic Medicine</small>
+        </blockquote>
+        
+        <blockquote>
+            <p>"This product will save me about a half hour a day instead 
+                of making copies."</p>
+            <small>M Carli, Physical Therapist</small>
+        </blockquote>
+       
+        <blockquote>
+            <p>"If I’m just reading the instructions on the sheet, I  
+                wasn’t able to easily understand what they wanted 
+                me to do."</p><small> Andrew Gustafson, Therapy Patient</small>
+
+        </blockquote>  
+
+        <img src="~/Content/img/inaction.png" class="top-margin-lg center img-responsive" />
+    </div> 
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <center style="margin-top: 30px">
+            <a class="btn btn-orange btn-large" href="https://app.movidhep.com/account/register">Commit to be better than other physical therapy clinics, sign up now!</a>
+        </center>
+    </div>
+</div>
+

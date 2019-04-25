@@ -1,0 +1,28 @@
+﻿@model Movid.Shared.Model.BlogEntry
+
+@section PageTitle{
+    @Model.Title
+}
+
+@section PageDescription{
+    @Model.Title
+}
+
+<div class="row-fluid">
+        
+        <div class="span12 blog-entry">
+            <h3>@Model.Title</h3>
+            <div class="media">
+                <img src="/Content/img/authors/@(Model.Author.ToString()).jpg"  class="pull-left img-circle" width="60" height="60"     />
+                <div class="media-body">
+                    By: @Model.Author.ToString()<br />
+                    Published On:<span class="blog-date">@Model.Published.ToShortDateString()</span>
+                </div>
+                 
+            </div>
+            <div class="blog-text">
+             @Html.Raw(Model.Text)
+             </div>
+            <div class="divider"></div>
+        </div>
+    </div>

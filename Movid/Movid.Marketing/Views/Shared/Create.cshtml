@@ -1,0 +1,16 @@
+
+<div id="content-wrapper">
+@Html.Partial("AlertsAndErrors")
+
+    <div id="@(this.ViewContext.RouteData.Values["action"] + Model.GetType().Name)" class="edit-content">
+        <h2>Add</h2>
+            <div class="form-horizontal">
+        @using(Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+            @Html.EditorForModel()
+            <input type="submit" value="Add New" />
+        }
+                </div>
+    </div>
+                
+</div>

@@ -1,0 +1,171 @@
+﻿@using Movid.App.Application
+@using Movid.Shared
+@using Raven.Imports.Newtonsoft.Json
+@model dynamic
+
+<h3>Your Account</h3>
+<p>Manage your Account</p>
+
+<div class="row bordered" ng-controller="myAccountCntrl" >
+    <div class="col-md-4" >
+        <h4>Subscription</h4>
+
+        <div class="alert alert-warning" ng-hide="!current.trialExpired || current.price !== 0" ngCloak>
+            <i class="icon-exclamation" style="color: #d9534f"></i> Your free trial has ended.<br />
+            Please upgrade to a paid plan.
+        </div>
+
+        <div>
+            {{current.planName}} ( {{current.price * current.quantity | currency }} ) <br />
+            <em>started on {{current.startedOn | date:'mediumDate'}}</em>
+
+            @*<pre>{{current|json}}</pre>*@
+
+            <div ng-hide="current.planName.indexOf('Free') == -1">
+                {{current.daysRemaining}} days remaining in your free trial.
+            </div>
+        </div>
+    
+        @*        <pre>{{plan | json}}</pre>  
+        <pre>{{cc| json}}</pre>  *@
+
+    </div>      
+    <div class="col-md-8 " >
+        <h4>Pricing Plans</h4>        
+            
+        <div class="row" >
+            <div class="col col-lg-12">
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th>Plan</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="plan in planOptions">
+                            <td><strong>{{plan.stripePlan.name}}</strong></td>
+                            <td>
+                                {{plan.stripePlan.amount * .01 | currency}}
+                                <span ng-if="plan.hasQuantity"><br />
+                                    (per {{plan.quantityString}})
+                                </span>
+
+                            </td>
+                            <td>
+                                <div  ng-if="plan.hasQuantity">
+                                    <input type="text" class="form-control" ng-model="plan.quantity"/>
+                                </div>
+                            </td>
+                            <td>
+                                
+                                <button ng-if="current.id != plan.stripePlan.id" class="btn btn-blue" ng-click="selectPlan(plan)">Switch to This Plan</button>
+                                <button ng-if="current.id == plan.stripePlan.id" class="btn" disabled="disabled">Your current Plan</button>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                
+
+            </div>            
+        </div>
+    </div>
+
+    
+</div>
+
+
+
+@section PageJs{
+    <script type="text/javascript">
+
+
+        function myAccountCntrl($scope, $modal, planService) {
+            $scope.cc = {};
+            $scope.modalErrors = [];
+            $scope.paymentSubmitted = true;
+            $scope.quantity = 1;
+
+            planService.getCurrent().then(function (r) {
+                $scope.current = r;
+                console.log(r);
+            });
+
+            var openPaymentModal = function() {
+                paymentModal.then(function(modalEl) {
+                    modalEl.modal('show');
+                });
+            };
+
+            planService.getPlanOptions().then(function (data) {
+                
+                $scope.planOptions = data;
+            });
+
+            $scope.selectPlan = function(plan) {
+                $scope.changePlanTo = plan;
+                openPaymentModal();
+            };
+
+            var paymentModal = $modal({
+                template: '/my-account/paymentmodaltemplate',
+                persist: true,
+                show: false,
+                scope: $scope
+            });
+
+            $scope.changePlan = function () {
+
+                if (!$scope.ccForm.$valid) {
+                    return;
+                }                
+
+                $scope.modalErrors = [];
+                var data = {
+                    'planId': $scope.changePlanTo.stripePlan.id,
+                    'quantity': $scope.changePlanTo.quantity,
+                    'cardNumber': $scope.cc.cardNumber,
+                    'name': $scope.cc.name,
+                    'expiration': $scope.cc.expiration,
+                    'cvc': $scope.cc.cvc
+                };
+
+                planService.changePlan(data).then(function (r) {
+
+                    $scope.modalErrors = [];
+                    $scope.errors = [];
+
+                    if (r.success) {
+                        $scope.currentPlan = $scope.changePlanTo;
+                        
+                        paymentModal.then(function (modalEl) {
+                            modalEl.modal('hide');
+                        });
+
+                        planService.getCurrent().then(function (r) {
+                            $scope.current = r;
+                        });
+
+                    } else {
+                        $scope.modalErrors.push(r);
+                    }
+                });
+            };
+
+            $scope.closeModal = function() {
+                paymentModal.then(function (modalEl) {
+                    modalEl.modal('hide');
+                });
+
+                $scope.currentPlan = 0;
+                $scope.cc = {};
+                $scope.modalErrors = [];
+                $scope.ccForm.$setPristine();
+            };
+        }
+
+      
+    </script>
+}

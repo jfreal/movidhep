@@ -1,0 +1,112 @@
+@using Movid.Shared.Infrastructure.GridFor
+@using System.Web.Mvc.Html
+@using Movid.Shared.PagedList
+
+
+@{
+    var gridViewModel = new GridViewModel(Model);
+
+    //there should be a smarter way to do this
+    gridViewModel.SearchTerm = ViewBag.SearchTerm;
+    
+    
+}
+
+<div id="content-wrapper">
+    
+        @*I guess this could go in a partial but its not that complex...*@
+    <div class="row" id="page-heading">
+        <div class="col-md-8">
+            <h3>@ViewBag.GridName</h3>
+            <em>@ViewBag.GridDescription</em>
+            </div>
+             <div  class="col-md-4" style="text-align: right">
+               @Html.ActionLink("Create New", "Create", null, new{@class="btn btn-blue"})<br /><br />
+        </div>
+    @{ 
+            var pagedList = (IPagedList) Model;
+           
+    }
+        <div class="col-lg-6">
+         
+            @if (Model.Count > 0)
+            {
+                @Html.PagedListPager((IPagedList) Model, page => Url.Action("Grid", new {page, term = gridViewModel.SearchTerm}), new PagedListRenderOptions() {ContainerDivClasses = new string[0], UlElementClasses = new string[] {"pagination"}})
+                @:Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount
+            }
+            else
+            {
+                <em>No Results Found</em>
+            }
+        </div>
+        
+        <div class="col-lg-6" style="padding: 20px">
+             @using (Html.BeginForm("Search","Exercise", new { Page = 1 },FormMethod.Get ))
+             {
+                 @Html.Partial("Search", gridViewModel)
+             }
+        </div>
+    </div>
+    
+
+
+        <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                @foreach (var prop in gridViewModel.VisibleProperties)
+                {
+                    <th>@prop.DisplayName</th>    
+                }
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var row in gridViewModel.Items)
+            {   <tr>
+                    <td>@Html.Partial("GridTemplates/Grid/BodyRowStart", row)</td>
+                    @foreach (var prop in gridViewModel.VisibleProperties)
+                    {
+                        <td>@{ gridViewModel.RenderCell(this.Html, prop, row); }</td>
+                    }
+                    <td>@Html.Partial("GridTemplates/Grid/BodyRowEnd", row)</td>
+                </tr>
+            }
+        </tbody>
+        </table>  
+    
+   
+        Showing @pagedList.FirstItemOnPage of @pagedList.LastItemOnPage 
+   
+        @if (string.IsNullOrWhiteSpace(gridViewModel.SearchTerm))
+        {
+            @Html.PagedListPager((IPagedList) Model, page => Url.Action("Grid", new {page}), new PagedListRenderOptions() {ContainerDivClasses = new string[0], UlElementClasses = new string[] {"pagination"}})
+        }
+        else
+        {
+            @Html.PagedListPager((IPagedList) Model, page => Url.Action("Search", new {page, term = gridViewModel.SearchTerm}), new PagedListRenderOptions() {ContainerDivClasses = new string[0], UlElementClasses = new string[] {"pagination"}})
+        }
+        
+</div>
+
+@section PageJs{
+    <script type="text/javascript">
+        $(function () {
+            $('a.delete-link').on('click', null, function() {
+                if (!confirm('Are you sure you want to delete?')) {
+                    return false;
+                }
+            });
+
+            $('button.refresh-thumb').on('click', function () {
+                var videoId = $(this).attr('data-video-id');
+                var exerciseId = $(this).attr('data-exer-id');
+                var button = $(this);
+                $.post('/library/refresh-thumb', { 'videoId': videoId, 'exerciseId': exerciseId }, function(r) {
+
+                    button.closest('tr').find('img').fadeOut().attr('src', r).fadeIn();
+                });
+            });
+        });
+    </script>
+}

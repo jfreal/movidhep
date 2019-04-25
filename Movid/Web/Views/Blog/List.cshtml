@@ -1,0 +1,41 @@
+﻿@model List<Movid.Shared.Model.BlogEntry>
+@{
+    ViewBag.Title = "Blog Posts";
+}
+
+<h2>Blog Entries</h2>
+
+<a class="btn btn-blue" href="@Url.Action("Create")">Create</a>
+
+<table class="table table-bordered">
+    <thead>
+        <th>Title</th>
+        <th>Published</th>
+        <th></th>
+    </thead>
+    <tbody>
+        @foreach (var blog in Model)
+        {
+            <tr>
+                <td>
+                    <a href="http://localhost:13480/blog/@blog.Id/@blog.Title" target="_blank">
+                        @blog.Title
+                    </a>
+                </td>
+                <td>@blog.Published</td>
+            <td>
+                <div class="btn-group">
+                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Actions <span class="caret"></span>
+                    </button>
+                     <ul class="dropdown-menu" role="menu">
+                         <li><a href="@Url.Action("Edit", "Blog", new{blogId=blog.Id})"><i class="icon-edit"></i> Edit</a></li>
+                         <li class="divider"></li>
+                         <li><a href="@Url.Action("Delete", "Blog", new {blogId = @blog.Id})" class="delete-link"><i style="color: #d9534f" class="icon-remove"></i> Delete</a></li>
+                     </ul>
+                </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

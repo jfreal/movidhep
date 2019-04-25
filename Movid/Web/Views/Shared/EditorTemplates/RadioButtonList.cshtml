@@ -1,0 +1,14 @@
+
+@*@{ var selectList = (IEnumerable<SelectListItem>)ViewData["DropdownFor." + ViewData.TemplateInfo.HtmlFieldPrefix];
+    //var ddMeta = (DropdownMetadata)ViewData["DropdownFor.Metadata." + ViewData.TemplateInfo.HtmlFieldPrefix];
+
+    var oldPrefix = ViewData.TemplateInfo.HtmlFieldPrefix;
+    ViewData.TemplateInfo.HtmlFieldPrefix = "";}
+
+@foreach( var item in selectList ) {
+    @(Html.RadioButton(ddMeta.ValueFieldExpression, item.Value, item.Selected))@(item.Text)<br />
+}
+
+
+@{ ViewData.TemplateInfo.HtmlFieldPrefix = oldPrefix;}
+*@

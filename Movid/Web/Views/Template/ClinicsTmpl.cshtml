@@ -1,0 +1,65 @@
+﻿@{
+    Layout = null;
+}
+<div ng-repeat="clinic in vm.clinics" class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="btn-group pull-right">
+                    <a class="btn btn-default btn-sm" href="#/adduser/{{clinic.details.id}}" target="_self"><i class="icon-plus-sign"></i> Add User</a>    
+                    <a class="btn btn-default btn-sm" href="#/clinic/{{clinic.details.id}}/settings" target="_self"><i class="icon-pencil"></i> Edit Settings</a>    
+                    @*<a class="btn btn-default btn-sm" ng-click="deleteClinic(clinic)"><i class="icon-remove"></i> Delete Clinic</a>    *@
+                </div>
+                <h4 class="no-top-margin"><i class="icon-hospital"></i> {{clinic.details.name}} ( {{clinic.users.length}} users ) </h4>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <img id="clinic-logo" ng-attr-src="/images/cliniclogo/{{clinic.details.id}}" class="constrained-image" />   
+                    </div>                    
+                    <div class="col-sm-4">
+                        Address:<br />
+                        {{clinic.details.address}}<br />
+                        {{clinic.details.cityStateZip}}
+                    </div>
+                    <div class="col-sm-4">
+                        Phone: {{clinic.details.phone}}<br />
+                        Email: {{clinic.details.email}}<br />
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-responsive table-condensed">
+                    <tr>
+                        <th></th>            
+                        <th>Name/Email</th>    
+                        <th>Status</th>   
+                        <th>Created</th>
+                        <th>Last Login</th>
+                        <th></th>
+                    </tr>
+                    <tr ng-repeat="user in clinic.users">
+                    
+                        <td style="width: 100px;">
+                            <img ng-attr-src="/images/userheadshot/{{user.id}}" class="full-spacing img-rounded" ng-cloak />
+                        </td>
+                        <td>
+                            {{user.name}}<br />
+                            {{user.email}}
+                            <span ng-show="{{user.status == 'Admin'}}">*</span>
+                        </td>
+                        <td>{{user.status}}</td>
+                        <td>{{user.createdOn|date:'short'}}</td>
+                        <td>{{user.lastLogin|date:'short'}}</td>
+                        <td style="text-align: right">
+                            <div class="btn-group-vertical">
+                                <a href="#/user/{{user.id}}/edit" class="btn btn-sm btn-default"><i class="icon-pencil"></i> Edit User</a>
+                                @*<button class="btn btn-sm btn-default" ng-click="disableUser(user)" ng-disabled="{{user.status != 'Active'}}"><i class="icon-remove"></i> Disable</button>*@
+                                <button class="btn btn-sm btn-default" ng-click="resendInvitation(user)" ng-disabled="{{user.status != 'Invited'}}"><i class="icon-refresh"></i> Resend Invitation</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                * <em>account administrators can access every clinic</em>
+            </div>
+        </div>
+    </div>
+</div>

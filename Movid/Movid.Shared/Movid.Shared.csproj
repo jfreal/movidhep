@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3BF22C65-9315-4A63-B57C-8EB2D49E12F3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Movid.Shared</RootNamespace>
+    <AssemblyName>Movid.Shared</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IOwnable.cs" />
+    <Compile Include="Model\Exercise.cs" />
+    <Compile Include="Model\ExerciseViewModel.cs" />
+    <Compile Include="PagedList\BasePagedList.cs" />
+    <Compile Include="PagedList\GoToFormRenderOptions.cs" />
+    <Compile Include="PagedList\HtmlHelper.cs" />
+    <Compile Include="PagedList\IPagedList.cs" />
+    <Compile Include="PagedList\PagedList.cs" />
+    <Compile Include="PagedList\PagedListDisplayMode.cs" />
+    <Compile Include="PagedList\PagedListExtensions.cs" />
+    <Compile Include="PagedList\PagedListMetaData.cs" />
+    <Compile Include="PagedList\PagedListRenderOptions.cs" />
+    <Compile Include="PagedList\StaticPagedList.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="Infrastructure\CompressResponseAttribute.cs" />
+    <Compile Include="Infrastructure\ControllerUserNotificationExtensions.cs" />
+    <Compile Include="Infrastructure\ConventionsBootstrapper.cs" />
+    <Compile Include="Infrastructure\Conventions\BooleanFieldsDefaultToAFalseDefault.cs" />
+    <Compile Include="Infrastructure\Conventions\CheckBoxOptionsConvention.cs" />
+    <Compile Include="Infrastructure\Conventions\ConventionMetadataProvider.cs" />
+    <Compile Include="Infrastructure\Conventions\MarkdownFieldConvention.cs" />
+    <Compile Include="Infrastructure\Conventions\EnumUsesEnumTemplate.cs" />
+    <Compile Include="Infrastructure\Conventions\ImpliedDescriptionFromTypeName.cs" />
+    <Compile Include="Infrastructure\Conventions\KeyAsHiddenFieldConvention.cs" />
+    <Compile Include="Infrastructure\Conventions\MetadataConventionBase.cs" />
+    <Compile Include="Infrastructure\Conventions\ModelMetadataAdditionalValuesExtensions.cs" />
+    <Compile Include="Infrastructure\Conventions\NullDisplayTextIsEmptyStringForStringsConvention.cs" />
+    <Compile Include="Infrastructure\Conventions\NumericOnlyConvention.cs" />
+    <Compile Include="Infrastructure\Conventions\RadioButtonOptionsConvention.cs" />
+    <Compile Include="Infrastructure\Conventions\ScaffoldTurnsOffShow.cs" />
+    <Compile Include="Infrastructure\Conventions\SpaceOutCamelCasePropertyNameAsDisplayName.cs" />
+    <Compile Include="Infrastructure\Conventions\StringLengthConvention.cs" />
+    <Compile Include="Infrastructure\Conventions\TemplateFieldExclusionConvention.cs" />
+    <Compile Include="Infrastructure\Conventions\UIHintControlParametersConvention.cs" />
+    <Compile Include="Infrastructure\Conventions\UnsupportedDescriptionAttribute.cs" />
+    <Compile Include="Infrastructure\Conventions\UnsupportedReadOnlyAttribute.cs" />
+    <Compile Include="Infrastructure\Conventions\Validation\ConventionModelValidationProvider.cs" />
+    <Compile Include="Infrastructure\Conventions\Validation\ConventionValidationRuleBase.cs" />
+    <Compile Include="Infrastructure\Conventions\Validation\EmailDataTypeShouldBeValidEmail.cs" />
+    <Compile Include="Infrastructure\Conventions\Validation\PhoneNumberDataTypeIsValidType.cs" />
+    <Compile Include="Infrastructure\Conventions\Validation\ValidateEmailAttribute.cs" />
+    <Compile Include="Infrastructure\Conventions\Validation\ValidatePhoneNumberAttribute.cs" />
+    <Compile Include="Infrastructure\CSVExtensions.cs" />
+    <Compile Include="Infrastructure\CustomHtmlHelpers.cs" />
+    <Compile Include="Infrastructure\DefaultTypeDescriptionProvider.cs" />
+    <Compile Include="Infrastructure\DefaultTypeDescriptor.cs" />
+    <Compile Include="Infrastructure\DescriptionProviders\NameOrDescriptionProperty.cs" />
+    <Compile Include="Infrastructure\EnumerableExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\CSVExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\ExcludibleDisplayExtension.cs" />
+    <Compile Include="Infrastructure\Extensions\ExcludibleEditorExtension.cs" />
+    <Compile Include="Infrastructure\Extensions\ReflectionExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\StringBuilderExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\StringExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\TemplateForModelGenerator.cs" />
+    <Compile Include="Infrastructure\IDescriptionProvider.cs" />
+    <Compile Include="Infrastructure\IExpressionBasedResolver.cs" />
+    <Compile Include="Infrastructure\IKeyProvider.cs" />
+    <Compile Include="Infrastructure\Inflector.cs" />
+    <Compile Include="Infrastructure\IPagedList.cs" />
+    <Compile Include="Infrastructure\KeyProviders\DbKeyFieldAsClassProperty.cs" />
+    <Compile Include="Infrastructure\KeyProviders\KeyAttributeDecoratesKeys.cs" />
+    <Compile Include="Infrastructure\ModalViewEngine.cs" />
+    <Compile Include="Infrastructure\ObjectSummarizer.cs" />
+    <Compile Include="Infrastructure\ObjectSummary.cs" />
+    <Compile Include="Infrastructure\ObjectSummaryKeys.cs" />
+    <Compile Include="Infrastructure\PagedList.cs" />
+    <Compile Include="Infrastructure\ReflectionExtensions.cs" />
+    <Compile Include="Infrastructure\RegisteredDescriptionProvider.cs" />
+    <Compile Include="Infrastructure\RegisteredKeyProvider.cs" />
+    <Compile Include="Infrastructure\StringExtensions.cs" />
+    <Compile Include="Infrastructure\ViewExtensions.cs" />
+    <Compile Include="Infrastructure\ViewModelAttributes\CheckBoxOptions.cs" />
+    <Compile Include="Infrastructure\ViewModelAttributes\ComplexTypes\DateRange.cs" />
+    <Compile Include="Infrastructure\ViewModelAttributes\Integer.cs" />
+    <Compile Include="Infrastructure\ViewModelAttributes\MarkdownAttribute.cs" />
+    <Compile Include="Infrastructure\ViewModelAttributes\RadioButtonOptions.cs" />
+    <Compile Include="Infrastructure\ViewModelAttributes\Slider.cs" />
+    <Compile Include="Infrastructure\ViewModelAttributes\ValidationAttributes\CantGoBackwardsInTime.cs" />
+    <Compile Include="Infrastructure\Web\HtmlHelpers.cs" />
+    <Compile Include="Model\BlogEntry.cs" />
+    <Compile Include="Model\BlogEntryViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

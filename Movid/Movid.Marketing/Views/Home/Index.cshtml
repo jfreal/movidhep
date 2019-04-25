@@ -1,0 +1,148 @@
+﻿@using Movid.Marketing.Application
+@using Movid.Shared.Infrastructure
+@using Movid.Web.Infrastructure
+@model List<Movid.Shared.Model.BlogEntry>
+
+@section PageTitle{
+    Get more referrals, increase patient compliance and earn more revenue with Movid Home Exercise Programs.
+}
+
+@section PageDescription{
+    Home page of Movid Home Exercise Programs
+}
+<div class="row">
+    
+            <div id="main-marketing-message" class="col col-md-6">
+                <h1 class="no-top-margin">Movid is  more!</h1>
+                    
+                <h2>More referrals, more compliance and more revenue. </h2>
+                
+                <h3>Digital home exercise programs, automated marketing and customer follow-up combined!</h3>
+                
+                <p>
+                    We built Movid around the idea that home exercise program are not just an integral component of treatment, but also an <strong>underutilized
+                    marketing opportunity</strong>. Stand out from the competition by providing your patients with an extra level of service with high definition, 
+                    easy to follow and impossible to lose video based home exercise program. All exercises are customizable giving you the opportunity 
+                    to include your own custom descriptions and parameters. 
+
+                </p>
+            
+                <div class="btn-group fifteen-margin-top fifteen-margin-bottom">
+                    <a href="@Html.RegisterLink()" class="btn btn-lg btn-orange">
+                        <i class="fam-status-offline"> </i> Free Trial
+                    </a>
+                    <a href="@Url.Action("Buy", "Content")" class="btn btn-lg btn-orange">
+                        <i class="fam-status-offline"> </i> Buy Now
+                    </a>
+                </div>
+            </div>
+    <div class="col col-md-6">
+        <div class=" embed-container">
+            <iframe src="http://player.vimeo.com/video/76365778?byline=0&amp;color=ffffff" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> <p>Quadraped.mov from <a href="http://vimeo.com/user19571855">Movid</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+        </div>
+        <p><br />
+            <strong><a href="@Url.Action("FeatureVideos", "Content" )"> Take a look at Movid HEP's powerful features.</a></strong>
+        </p>
+    </div>
+        </div>
+
+<div class="row feature-block"  style="width: 90%; margin: 15px auto">
+    <div class="col col-md-6">
+       <h3>Workflow Friendly Home Exercise Builder</h3>
+
+        <div class="light-gray" >
+            <p>No software to download! Simply log in to our platform from your favorite web enabled device and get to work quickly.  
+                Movidhep is a service that doesn't take time away from patients and seamlessly integrates with your existing workflow.</p>
+        </div>
+    
+    </div>
+    <div class="col col-md-6">
+        <h3>Patient Engagement Tracking</h3>
+        
+        <p>
+            Know when your patients open their emails and view their  <a href="http://app.movidhep.com/program/sample" target="blank">home exercise programs</a>.  
+            Follow up with patients who aren't reading your messaging and accessing their home exercise programs.
+        </p>        
+    </div> 
+  
+</div>
+    <div class="row feature-block"  style="width: 90%; margin: 15px auto">
+    <div class="col col-md-6">
+       <h3>Targeted and Segmented Marketing</h3>
+
+        <div class="light-gray" >
+            <p>
+                Don't email weekend warriors the same messaging as patients recovering from total hip replacements. Low back pain patients don't want information about shoulder impingement. Give your patients information they want. 
+                Movidhep allows you to target information to specific segments of your patients making your messaging more effective. 
+            </p>
+        </div>
+    
+    </div>
+    <div class="col col-md-6">
+        <h3>Your Brand, Not Ours</h3>
+        
+        <p>
+           Full white labeling support so your patients are reminded of you and your clinic. Your logo, your picture and your brand; build a stronger relationship with your patients today!  <a href="http://app.movidhep.com/program/sample" target="blank">View a Sample Program</a>
+        </p>        
+    </div> 
+  
+</div>
+    
+
+<div class="row">
+    <div class="col col-md-8" id="main-blog-preview">
+        <h3>Latest Blog Posts</h3>
+        @foreach (var blog in Model)
+        {
+            <div class="blog-summary">
+                <strong>@Html.ActionLink(@blog.Title, "Single", "Blog", new { id = @blog.Id, seo = @blog.Title.ToRouteFriendlyString() }, null)</strong>
+                            
+                <p class="light-gray">Published On: @blog.Published.ToShortDateString()<br />
+                    @Html.Raw(blog.Text.Words(50))
+                </p>
+            </div>
+        }
+    </div>      
+    <div class="col col-md-4">
+        
+        <div  style="background-color: #1695A3; padding: 7px 7px; color: #fff; margin-bottom: 15px; -webkit-border-radius: 6px;
+-moz-border-radius: 6px;
+border-radius: 6px;">
+                  
+        <h4>
+            Stay Connected
+        </h4>
+            <p>Keep in touch, we'll let you know about our upcoming launch!</p>
+        <div id="mc_embed_signup">
+            <form action="http://hartfordsalsa.us5.list-manage.com/subscribe/post?u=ed77dad6ba9afa007e409ad11&amp;id=fd9fed713c" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate form-inline" target="_blank" novalidate>
+                <input type="email" value="" name="EMAIL" id="mce-EMAIL" placeholder="email address" class="form-control" required style="margin-bottom: 5px;">
+                <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="btn">
+            </form>
+        </div>
+    </div>
+
+
+        <blockquote>
+            <p>"The biggest problem [with physical therapy] is  
+                compliance. They do the exercise and forget it by the 
+                time they get home."</p>
+            <small>Jennifer Emmons, Doctor of Osteopathic Medicine</small>
+        </blockquote>
+        
+        <blockquote>
+            <p>"This product will save me about a half hour a day instead 
+                of making copies."</p>
+            <small>M Carli, Physical Therapist</small>
+        </blockquote>
+       
+        <blockquote>
+            <p>"If I’m just reading the instructions on the sheet, I  
+                wasn’t able to easily understand what they wanted 
+                me to do."</p><small> Andrew Gustafson, Therapy Patient</small>
+
+        </blockquote>
+
+    </div>      
+</div>
+
+

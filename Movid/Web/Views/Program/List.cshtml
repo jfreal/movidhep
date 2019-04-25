@@ -1,0 +1,74 @@
+﻿@model List<Movid.App.Models.Program>
+    
+     <div class="row" id="page-heading">
+        <div class="col-md-8">
+            <h3>Sent Programs</h3>
+            <em>
+                This view is a listing of all the Programs you've sent so far, a summary of the exercises you've prescribed and details on if the email
+                was delivered, opened and how many views its received.  Use this information to track not only how many marketing messages you've sent but
+                how often they are being read.
+            </em>
+        </div>
+        <div  class="col-md-4" style="text-align: right">
+            @Html.ActionLink("Create New", "Index", "ProgramBuilder", null, new{@class="btn btn-blue"})<br /><em class="smaller">
+                                                                                                        takes you to the Program builder
+                                                                                                    </em>
+        </div>
+    </div>
+
+<table class="table table-striped">
+    <thead>
+        <th>Patient</th>
+        <th>Created</th>
+        <th>Details</th>
+        
+        <th>Delivered</th>
+        <th>Opened</th>
+        <th>Views</th>
+       <th></th>
+    </thead>
+    @foreach(var program in Model)
+    {
+        <tr>
+            <td>@program.Email
+            </td>
+            <td>@program.Created</td>
+            <td style="font-size: 12px;">
+                @foreach(var exercise in program.Exercises)
+                {
+                    <div>
+                        @exercise.Name -
+                        @(string.Join("/", @exercise.ExerciseDetails.Where(x=>x.Value !="").Select(y=>y.Shorthand + " " + y.Value)))
+                    </div>
+                }
+            </td>
+            
+            <td>
+                @(program.EmailEvents.Any(x=>x.Event == "delivered") ? "Yes" : "No")
+            </td>
+            <td>
+                @(program.EmailEvents.Any(x=>x.Event == "open") ? "Yes" : "No")
+            </td>
+            <td>
+                @program.PlanViews.Count()
+            </td>
+            <td>
+                
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Actions <span class="caret"></span>
+                  </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="http://app.movidhep.com/program/@program.ShortUrl" target="_blank"><i class="icon-share"></i> View</a></li>
+                        <li><a href="@Url.Action("LoadProgram", "ProgramBuilder", new{programId=program.Id})"><i class="icon-edit"></i> Edit</a></li>
+                        <li><a href="@Url.Action("Resend","Program", new {programId = @program.Id} )"><i class="icon-envelope-alt"></i> Resend</a></li>
+                        <li class="divider"></li>
+                        <li><a href="@Url.Action("Delete", "Program", new {programId = program.Id})" class="delete-link"><i style="color: #d9534f" class="icon-remove"></i> Delete</a></li>
+                    </ul>
+                </div>
+             
+            </td>
+        </tr>
+    }
+</table>
+    

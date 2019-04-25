@@ -1,0 +1,34 @@
+﻿@{
+    Layout = null;
+}
+<h3>Add a New User</h3>
+<div class="row">
+    <div class="col-sm-12">
+        <form role="form" name="newUserForm">
+            <div class="form-group">
+                <label for="name">Full Name (optional)</label>
+                <input type="text" class="form-control" name="name" ng-model="newUser.name" placeholder="name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="name" name="email" ng-model="newUser.email" placeholder="email" required>
+                <div data-ng-show="(newUserForm.email.$error.required || newUserForm.email.$error.email ) && newUserForm.email.$dirty">
+                    A valid Email address is Required
+                </div>
+            </div>
+            @*  <div class="form-group">
+            <label for="cardNumber" class="col-sm-4 control-label">Email</label>
+            <div class="col-sm-8">
+                <input type="email" class="form-control" name="email" ng-model="newUser.email" placeholder="email" required>
+                <div data-ng-show="(newUserForm.email.$error.required ) && ccForm.email.$dirty">
+                    A valid Email address is Required
+                </div>
+            </div>
+        </div>*@
+            <div class="btn-group">
+                <a href="#/" class="btn btn-blue">Cancel</a>
+                <input type="submit" class="btn btn-blue" ng-disabled="!newUserForm.$valid" ng-click="addUser()" value="Add User"></input>
+            </div>
+        </form>
+</div>
+</div>

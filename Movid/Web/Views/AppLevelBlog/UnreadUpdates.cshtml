@@ -1,0 +1,36 @@
+﻿@using Movid.Shared.Infrastructure
+@model List<Movid.Shared.Model.BlogEntry>
+@{
+    ViewBag.Title = "UnreadUpdates";
+}
+
+<div class="row" id="page-heading">
+    <div class="col-md-8">
+        <h3>Unread Movid HEP Updates</h3>
+        <em>
+            List of unread updates about Movid HEP
+        </em>
+    </div>
+    <div  class="col-md-4" style="text-align: right">
+        @Html.ActionLink("Mark all as Read", "UnreadUpdates", "AppLevelBlog", new {markAsRead = true}, new{@class="btn btn-blue"})
+    </div>
+</div>
+
+@foreach (var blog in Model)
+{
+    <div class="blog-entry">
+        <h4>@blog.Title</h4>
+        <div class="media">
+            <img src="/Content/img/authors/@(blog.Author.ToString()).jpg"  class="pull-left img-circle" width="60" height="60"     />
+            <div class="media-body">
+                By: <a href="mailto:@(blog.Author.ToString().ToLower() + "@movidhep.com")">@blog.Author.ToString()</a><br />
+                Published On:<span class="blog-date">@blog.Published.ToShortDateString()</span>
+            </div>
+        </div>
+
+        <div class="fifteen-margin-top">
+                @Html.Raw(blog.Text)
+        </div>
+                
+    </div>
+}

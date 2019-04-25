@@ -1,0 +1,74 @@
+﻿@using Movid.Shared.PagedList
+@model Movid.Shared.PagedList.StaticPagedList<Movid.Shared.Model.Exercise>
+    
+@section PageTitle{
+    List of all Physical Therapy Exercises in our Library
+}
+
+@section PageDescription{
+    A complete listing of the Home Exercise Plans in our library.  Over 250+ and counting!
+}
+
+
+<h2 class="no-top-margin">Available Exercises in our Library</h2>
+    
+<div class="row">
+    <div class="col-md-6">
+        @using (Html.BeginForm("PublicLibrarySearch","PublicLibrary", new { Page = 1 },FormMethod.Get ))
+        {
+            <div class="input-group">
+                <input type="text" class="form-control" name="term" id="exercise-search" placeholder="search terms" value="@ViewBag.SearchTerm" />
+                <span class="input-group-btn">
+                    <input type="submit" class="btn btn-default" value="Search"></input>
+                </span>
+            </div>
+        }
+    </div>
+
+    <div class="col-md-6">
+        @if (string.IsNullOrWhiteSpace(ViewBag.SearchTerm))
+        {
+            @Html.PagedListPager((IPagedList) Model, page => Url.Action("PublicLibrary", new {page}), new PagedListRenderOptions() {ContainerDivClasses = new string[0], UlElementClasses = new string[] {"pagination"}})
+        }
+        else
+        {
+            @Html.PagedListPager((IPagedList) Model, page => Url.Action("PublicLibrarySearch", new {page, term = ViewBag.SearchTerm}), new PagedListRenderOptions() {ContainerDivClasses = new string[0], UlElementClasses = new string[] {"pagination"}})
+        }
+        Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount
+    </div>
+</div>
+
+    
+
+@for(int i = 0; i < Model.Count; i++){
+
+    if (i == 0 || (i%2 == 0))
+    {
+        @:<div class="row">
+    }
+    
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>
+                    <a href="@Url.Action("SingleExercise", "PublicLibrary", new {id=@Model[i].Id}, null)">@Model[i].Name</a>
+                </h3>        
+            </div>
+        </div>
+        <div class="row">
+        
+            <div class="col-xs-6">
+                <img src="http://app.movidhep.com/images/largethumb/@Model[i].Id" style="max-width: 100%" alt="@Model[i].Name"/>
+            </div>
+        <div class="col-xs-6">
+            @Html.Raw(string.Join("<br />",Model[i].Categories))
+        </div>
+    </div>
+    </div>  
+
+    if((i+1)%2 == 0 ){
+       @:</div> 
+    }
+}
+
+        

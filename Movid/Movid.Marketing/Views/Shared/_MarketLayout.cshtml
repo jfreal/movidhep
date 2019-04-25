@@ -1,0 +1,108 @@
+﻿@using Movid.Marketing.Application
+@using Movid.Web.Utility
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <title>@RenderSection("PageTitle")</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="@RenderSection("PageDescription")">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="icon" type="image/png" href="/Content/img/justtheo.png" />
+    <!-- Le styles -->
+    <link href="/content/css/bootstrap.css" rel="stylesheet">
+    <link href="/content/css/market.css" rel="stylesheet">
+    <link href="/Content/css/font-awesome.css" rel="stylesheet" />
+    <link href="/Content/css/font-awesome-ie7.css" rel="stylesheet" />
+
+    @*<link href="/content/css/bootstrap-responsive.css" rel="stylesheet">*@
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
+      </script>
+    <![endif]-->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-35786005-1']);
+        _gaq.push(['_setDomainName', 'movidhep.com']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+</script>
+  </head>
+  <body>
+    <div class="navbar navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a  href="/"  ><img src="~/Content/img/logo.png" style="margin-top: 7px" /></a>
+                </div>
+            
+                <ul class="nav navbar-nav">
+                    @Html.Active("Pricing", "Pricing", "Content", "icon-dollar")
+                    @Html.Active("Sample Videos", "SampleVideos", "Content", "icon-film")
+                    @Html.Active("Handout Hall of Shame", "HallofShame", "Content", "icon-frown")
+                </ul>
+            
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="@Html.LoginLink()"><i class="icon-lock"></i> Login</a></li>
+                    <li class="navbar-text">860-778-2522</li>
+                </ul>
+        </div>
+    </div>
+<div>
+      <div class="container" style="padding-top: 15px">
+      @RenderBody()
+          </div>
+
+</div>
+
+   <div id="footer" style="background-color:#f8f8f8; border-top: 1px solid #e7e7e7;  margin-top: 30px">
+       <div class="container" style=" padding: 16px 0px">
+           <div class="row">
+               <div class="col col-md-3">© Movid</div>
+               <div class="col col-md-3">
+                  <a href="/about/">About</a><br />
+                  <a href="@Url.Action("FeatureVideos", "Content")">Features</a><br />
+                  <a href="@Url.Action("PublicLibrary", "PublicLibrary")">List of our Exercises</a>
+               </div>
+               <div class="col col-md-3">
+                    Contact Us: 860-778-2522<br />
+                   Supported Devices?  All of them. ;)
+               </div>
+               <div class="col col-md-3">
+                   <a href="https://plus.google.com/110866826697271740384" rel="publisher" target="_blank"><i class="icon-google-plus-sign"></i> Google+</a><br />
+                   <a href="https://www.facebook.com/movid"  target="_blank"><i class="icon-facebook-sign"></i> Facebook</a><br />
+                   <a href="https://twitter.com/movidhep"><i class="icon-twitter-sign"></i> Twitter</a>
+
+               </div>
+           </div>
+           </div>
+    </div>
+   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+      <script type="text/javascript" src="/Content/js/bootstrap.js" ></script>
+    <!-- Drip -->
+      <script type="text/javascript">
+          var _dcq = _dcq || [];
+          var _dcs = _dcs || {};
+          _dcs.account = '7219985';
+
+          (function () {
+              var dc = document.createElement('script');
+              dc.type = 'text/javascript'; dc.async = true;
+              dc.src = '//tag.getdrip.com/7219985.js';
+              var s = document.getElementsByTagName('script')[0];
+              s.parentNode.insertBefore(dc, s);
+          })();
+      </script>
+
+     
+
+      @RenderSection("PageJavascript", false)
+
+  </body></html>

@@ -1,0 +1,6 @@
+
+@{ var d = Model ?? false;
+    bool isChecked = bool.Parse(d.ToString());}
+
+
+@(Html.CheckBox((Model ?? "").ToString(), isChecked))

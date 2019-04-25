@@ -1,0 +1,35 @@
+﻿@model List<Movid.App.Models.Account>
+
+    <div id="content-wrapper">
+        <div class="row" id="page-heading">
+            <div class="col-md-8">
+                <h3>Accounts</h3>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Account Id</th>
+                    <th>Created Date</th>
+                    <th>Exercises Up To Date</th>
+                    <th>Last Login</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var account in Model)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("SingleAccount", "Administration", new {accountId = @account.Id})">@account.Id</a>
+                        </td>
+                        <td>@account.CreatedDate</td>
+                        <td>@account.ExercisesUpToDate</td>
+                        <td>@account.LastLogin</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+

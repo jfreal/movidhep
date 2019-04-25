@@ -1,0 +1,83 @@
+﻿@model Movid.App.Models.RegisterModel
+
+@{
+    ViewBag.Title = "Free Trial Sign Up";
+}
+
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-35786005-1']);
+    _gaq.push(['_setDomainName', 'movidhep.com']);
+    _gaq.push(['_trackPageview']);
+
+    (function () {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+
+<h3>Free Trial Sign Up</h3>
+<p>
+    Use the form below to create a new free trial account.   We'll send you some emails from time to time
+    to let you know how to get started using Movid HEP.
+</p>
+
+
+<div class="row">
+    <div class="col-md-8">
+
+
+        @using (Html.BeginForm("Register", "Account", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
+
+            <div class="form-group">
+                <label class="control-label col-lg-2">Name</label>
+                <div class="col-lg-4">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-lg-2">Email</label>
+                <div class="col-lg-4">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-lg-2">Password</label>
+                <div class="col-lg-4">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-lg-2">Confirm Password</label>
+                <div class="col-lg-4">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-lg-2"></label>
+                <div class="col-lg-4">
+                    @Html.CheckBoxFor(m => m.SubscribeToGeneral, new { @checked = "checked" })
+                    @Html.LabelFor(m => m.SubscribeToGeneral, "Subscribe to the Movid HEP newsletter to hear updates and news about Movid HEP")
+                </div>
+            </div>
+
+
+            @Html.AntiForgeryToken()
+            <input type="submit" value="Register" class="btn btn-blue btn-lg fifteen-margin-top" />
+        }
+
+
+    </div>
+</div>

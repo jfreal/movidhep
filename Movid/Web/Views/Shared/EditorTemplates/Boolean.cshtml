@@ -1,0 +1,6 @@
+@model bool?
+
+<input type="radio" id="@(ViewData.ModelMetadata.PropertyName)" name="@(ViewData.ModelMetadata.PropertyName)" @(Model.HasValue && Model.Value ? "checked=checked"  : "") value="True" />Yes
+&nbsp;
+<input type="radio" id="@(ViewData.ModelMetadata.PropertyName)" name="@(ViewData.ModelMetadata.PropertyName)" @(Model.HasValue  && !Model.Value ? "checked=checked" : "") value="False" /> No
+

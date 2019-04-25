@@ -1,0 +1,138 @@
+﻿@using System.Configuration
+@model Movid.App.Models.ViewModels.PublicProgramViewModel
+           @{
+               Layout = null;
+           }
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Home Exercise Program from @Model.Clinic.Name</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le styles -->
+    <link href="/Content/css/bootstrap.css" rel="stylesheet">
+    <link href="/Content/css/public-plan.css" rel="stylesheet" type="text/css" />
+    
+      @if (ConfigurationManager.AppSettings["TradeShowMode"] == "false")
+        {
+    
+        <link rel="stylesheet" type="text/css" href="/Content/js/skin/minimalist.css">
+       <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+       <!-- include flowplayer -->
+       <script type="text/javascript" src="/Content/js/flowplayer.min.js"></script>
+      }
+  </head>
+
+  <body>
+    <div class="container-narrow" id="public-plan-container">
+        <div class="row">
+            <div class="col-xs-4">
+                
+                @if (Model.Clinic.Name == "Sample Clinic")
+                {
+                    <h4>Your Logo Here!</h4>
+                }
+                
+                <img src="/images/cliniclogo/@Model.Clinic.Id" class="constrained-image" style="margin-right: 20px;"/>
+                
+            </div>
+            <div class="col-xs-4" >
+                <strong>@Model.Clinic.Name</strong>
+                
+                <p>@Model.Clinic.Address<br />
+                    @if (!string.IsNullOrWhiteSpace(Model.Clinic.Address2))
+                    {
+                        @Model.Clinic.Address2<br />
+                    }
+                    @Model.Clinic.CityStateZip</p>   
+            </div>
+            <div class="col-xs-4">
+                @Model.Clinic.Phone<br />
+                @Model.From.Email<br />
+                @if (string.IsNullOrWhiteSpace(Model.Clinic.Website))
+                {
+                    <a href="@Model.Clinic.Website">Website</a>
+                }
+            </div>
+        </div>
+        <div class="row" style="border-top: 1px solid #efefef; margin-top: 15px; padding-top: 15px ">
+            <div class="col-lg-12">
+                <div class="media">
+                    
+                    <img src="/images/userheadshot/@Model.Program.UserId"
+                         class="pull-right constrained-image media-object" style="margin-right: 20px; height: 60px"/>
+        
+                    <div class="media-body">
+                        <em>@(string.IsNullOrWhiteSpace(Model.Program.Greeting) ? Model.Settings.DefaultGreeting : Model.Program.Greeting )</em><br />
+                        -<strong>@Model.From.Name</strong>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        
+            @if (Model.Program.Exercises != null && Model.Program.Exercises.Any())
+            {
+                for (int index = 0; index < Model.Program.Exercises.Count; index++)
+                {
+                    var exer = Model.Program.Exercises[index];
+                    <div >
+                        <div class="row bordered " >
+                            <div class="col-sm-7" ><h3 style="margin-top: 0">@exer.Name</h3></div>
+                            <div class="col-lg-5">
+
+                                @foreach (var mD in exer.ExerciseDetails.Where(x => !string.IsNullOrWhiteSpace(x.Value) && x.Value != "0"))
+                                {
+                                    <div style="text-align: center; float: left; padding: 0 0; margin-top: 0; width: 20%">
+                                        <strong style="font-size: 16px">@mD.Shorthand</strong><br />
+                                        <span style="color: #333">@mD.Value</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    
+                        <div class="row" style="margin-top: 10px">
+                            <div class="col col-lg-12">
+                                @if (!string.IsNullOrWhiteSpace(@exer.Description))
+                                {
+                                    <img class="constrained-image visible-print" style="float: left; width: 300px; margin: 0 15px 15px 0" src="/images/largethumb/@exer.Id"/>
+                                    <p><strong>Instructions:</strong></p>
+                                    <span >@Html.Raw(exer.Description)</span>
+                                }
+                    
+                          
+                                <div class="embed-container hidden-print" style="margin-top: 18px">
+                                    @Html.Partial("Video", exer)
+                                </div>
+                               
+                        
+                            </div>
+                        </div>
+                    </div>
+                   
+                    if (index == 0)
+                    {
+                        <div class="page-break"></div>
+                    }
+                
+                    var mod = index%2;
+
+                    if (mod == 0)
+                    {
+                        <div class="page-break"></div>
+                    }
+                }
+            }
+        
+        
+      
+      <div class="footer bordered" style="text-align: center">
+          <p>this home exercise program powered by &copy; <a href="http://movidhep.com/">Movid 2013</a></p>
+          <img src="/content/img/logo-small.png"/>
+      </div>
+  </div>
+    
+  </body>
+</html>
+}

@@ -1,0 +1,12 @@
+
+
+@{ string displayText = string.Empty;}
+ @if (Model != null)
+    {
+        if (DateTime.Parse(Model.ToString()) != DateTime.MinValue)
+        {
+            displayText = DateTime.Parse(Model.ToString()).ToString("yyyy-MM-dd");
+        }
+    }
+
+@(Html.TextBox("", displayText, new { @class = "datepicker form-control", type="date" }))

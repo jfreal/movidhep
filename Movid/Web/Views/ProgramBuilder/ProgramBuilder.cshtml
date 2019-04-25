@@ -1,0 +1,507 @@
+﻿@using Movid.App.Models
+@using Raven.Imports.Newtonsoft.Json
+@model Movid.App.Models.ViewModels.ProgramBuilderViewModel
+    @*I know this is weird because we mix server and knockout rendering but repaints on mobile are still a little slower than we'd like*@
+     
+@{
+    var program = Model == null ? null : Model.ExerciseSet as Program;
+}
+
+<div id="ui-window" class="row" style="display:none" data-bind="visible: true"> 
+    <div class="col col-md-4 ui-left">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading"><i class="fam-page-white-swoosh"  ></i> 
+                        
+                @if (Model != null && Model.ExerciseSet != null)
+                {
+                    <span  class="spaced-and-bordered"><i class="icon-edit"></i> Edit</span>
+                }
+                else
+                {
+                    <span class="spaced-and-bordered">New</span>
+                }
+                        
+
+                @(Model == null ? "" : Model.TypeDescription) <span class="badge badge-light-blue " data-bind="text: programCount"></span></div>
+
+            <div class="panel-body">
+                        
+                @if (program != null )
+                {
+                    <div class="row">
+                        <div class="col-xs-3">Sent To:</div>
+                        <div class="col-xs-9">@program.Email</div>
+                    </div>
+                       
+                    <div class="row">
+                        <div class="col-xs-3">Created:</div>
+                        <div class="col-xs-9">@Model.ExerciseSet.Created</div>
+                    </div>
+                }
+                        
+                        
+                @if (Model.TypeDescription == "Program")
+                {
+                    <div style="margin: 15px 0 25px 0">
+                        <em>Greeting</em>
+                        <textarea name="greeting" class="form-control" style="width: 100%; height: 80px; font-size: 12px;" data-bind="value: program.Greeting"></textarea>
+                    </div>
+                }
+                        
+                           
+                @if (Model.TypeDescription == "Protocol")
+                {
+                    <div style="margin: 15px 0 25px 0">
+                        <em>Name:</em>
+                        <input type="text" data-bind="value: protocolName" class="form-control" />
+                    </div>
+                }
+
+                <div data-bind="foreach: program.Exercises, fadeVisible: program.Exercises().length > 0"  >
+                    <div class="preview-exercise">
+                        <button class="btn btn-default btn-xs pull-right"  data-bind="click: $parent.removeFromProgram"><i style="color: #d9534f" class="icon-remove"> </i> Remove</button>
+                        <strong><i class="icon-angle-right" style="color: #EB7F00"></i> <span data-bind="text: Name"></span></strong><br />
+                            
+                        <div data-bind="foreach: ExerciseDetails " class="preview-exercise-details">
+                            <div data-bind="visible: Value != 0">
+                                <span data-bind="text: Shorthand"></span>&nbsp;<span data-bind="text: Value"></span>&nbsp;<span data-bind="text: SelectedOption"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <br class="clearfix" />
+                </div>
+
+                <div data-bind="visible: program.Exercises().length == 0">
+                    <em>no exercises yet</em>
+                    <hr />
+                </div>
+                        
+                          
+                @if (Model.ExerciseSet != null && @Model.TypeDescription == "Program")
+                {
+                    <div class="btn-group">
+                        <button class="btn btn-blue edit-@Model.TypeDescription" data-bind="disable: program.Exercises().length == 0" ><i class="icon-save"></i> Save @Model.TypeDescription</button>
+                        <button class="btn btn-blue edit-@Model.TypeDescription " resend="true" data-bind="disable: program.Exercises().length == 0" ><i class="icon-envelope"></i> Save and Resend</button>
+                    </div>
+                }
+
+                @if (Model.ExerciseSet != null && @Model.TypeDescription == "Protocol")
+                {
+                        <button class="btn btn-blue " id="edit-@Model.TypeDescription" data-bind="disable: program.Exercises().length == 0" ><i class="icon-save"></i> Save @Model.TypeDescription</button>
+                }
+                        
+                        
+                @if (Model.ExerciseSet == null)
+                {
+                    <div id="patient-email" class="spaced-and-bordered">
+                        <em>Patient Email:</em><br />
+                        <input type="text" class="form-control" id="patient-email-input" data-bind="value: program.Email" />
+                        <div class="btn-group" style="margin-top: 8px;">
+                            <button class="btn btn-blue " id="add-program" data-bind="disable: program.Exercises().length == 0" ><i class="icon-envelope-alt"></i> Send to Patient</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <em>Protocol Name:</em>
+                        <input type="text" class="form-control" id="patient-email-input" data-bind="value: protocolName" />
+                        <div class="btn-group" style="margin-top: 8px;">
+                            <button class="btn btn-blue " id="new-protocol" data-bind="disable: program.Exercises().length == 0"  ><i class="icon-envelope-alt"></i> Save new Protocol</button>
+                            @*<button class="btn"  data-bind="click: function(data, event) { viewModel.showProgram(!viewModel.showProgram()) } "> Preview</button>*@
+
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col col-md-8" >
+        <div data-bind="fadeVisible: !showProgram()">
+            <div class="row">
+                <div class="col col-md-12">
+                    <h4 class="no-top-margin">Search for Exercises:</h4>
+                    <input type="text" class="form-control typeahead" placeholder="search for exercises" id="library-search" >
+                
+                    <h4>Available Exercises:</h4>
+                    <div id="exercise-list" >
+                        <div data-bind="foreach: library" >
+                            <div class="row exercise-row" >
+                                <div class="col col-sm-8">
+                                    <div style="position: relative; ">
+                                        <div style="position: absolute; padding: 4px 4px; top: 12px; background: rgb(34, 83, 120); /* fall back color */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 background: rgba(34, 83, 120, 0.7);">
+                                            <span style="color: #eeeeee; font-size: 12px; "><span data-bind="text: Categories"></span><br />
+                                                <span class="exercise-name" data-bind="text: Name" ></span>
+                                            </span>
+                                        </div>
+
+                                        <img class="video-thumb" data-bind="attr: { src: '/images/largethumb/' + Id }, click: $parent.showVideo"  />
+                                    </div>
+                                    <strong>Description:</strong><br />
+                                    <textarea class="form-control" style="height:100px;" data-bind="value: Description"></textarea>
+                                </div>
+                                <div class="col col-sm-4">
+                                    <table data-bind="foreach: ExerciseDetails " class="movement-details-input">
+                                        <tr>
+                                            <td>
+                                                <span class="movement-label" data-bind="text: Shorthand"></span>
+                                            </td>
+                                            <td>
+                                                <input class="form-control exercise-detail-input" type="text" data-bind="value: Value">
+                                            </td>
+                                            <td>
+                                                <select data-bind="visible: Options != null && Options.length > 0, options: Options, value: SelectedOption"  class="form-control">
+                                                    @*<!-- ko foreach: Options -->
+                                                    <option data-bind="text: $data, value: $data">$data</option>
+                                                    <!-- /ko -->*@
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <a href="#link" class="presribe-button btn btn-orange btn-lg" data-bind="attr: { 'data-exercise-id': Id }, click: $parent.transferToProgram"  ><i class="icon-plus"></i> Add </a>
+                                </div>
+                            </div>        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    <div class="modal" id="video-preview-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body embed-container">
+                    Content for the dialog / modal goes here.
+                </div>
+     
+            </div>
+        </div>
+    </div>
+    
+      
+<div id="video-embed" style="display:none" data-bind="visible: true">
+    <iframe src="" 
+            width="500" 
+            height="281" 
+            frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> 
+</div>
+
+
+
+@section BottomnNav{
+    <nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation" id="bottom-bar" data-bind="fadeVisible: messages().length > 0">
+       <div class="container">
+           <div class="row">
+               <div class="col-md-12" data-bind="foreach: messages">
+                    <div class="alert alert-info">
+                      <button type="button" class="pull-right" data-bind="click: $parent.clearMessage">&times;</button>
+                        <i data-bind="attr: { 'class': icon }"  ></i> <strong data-bind="    text: heading"></strong> <span data-bind="    text: message"></span>
+                    </div>
+               </div>
+           </div>
+        </div>
+    </nav>
+}          
+
+    
+@section PageJs{
+    <script src="/Content/js/knockout-2.2.0.js" type="text/javascript"></script>
+    <script src="/Content/js/knockout.mapping-latest.js" type="text/javascript"></script>
+    <script src="/Content/js/typeahead.js"></script> 
+    <script src="~/Content/js/typeahead.min.js"></script>
+    <script src="~/Content/js/hogan.js"></script>
+    <script type="text/javascript">
+
+        ko.bindingHandlers.fadeVisible = {
+            init: function(element, valueAccessor) {
+                // Initially set the element to be instantly visible/hidden depending on the value
+                var value = valueAccessor();
+                $(element).toggle(ko.utils.unwrapObservable(value)); // Use "unwrapObservable" so we can handle values that may or may not be observable
+            },
+            update: function(element, valueAccessor) {
+                // Whenever the value subsequently changes, slowly fade the element in or out
+                var value = valueAccessor();
+
+                //performance of this was really slow on mobile
+                //changed to plain show/hide for now until I find another alternative
+                ko.utils.unwrapObservable(value) ? $(element).show() : $(element).fadeOut(200);
+            }
+        };
+
+        ko.bindingHandlers.date = {
+            init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+                var jsonDate = valueAccessor();
+                var value = new Date(parseInt(jsonDate.substr(6)));
+
+                console.log(jsonDate);
+
+                var ret = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
+                element.innerHTML = ret;
+            },
+            update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+                var jsonDate = valueAccessor();
+                var value = new Date(parseInt(jsonDate.substr(6)));
+
+                //console.log(jsonDate);
+
+                var ret = value.getMonth() + 1 + "/" + value.getDate() + "/" + value.getFullYear();
+                element.innerHTML = ret;
+            }
+        };
+
+        var ViewModel = function() {
+            var self = this;
+
+            self.showProgram = ko.observable(false);
+
+            self.protocolName = ko.observable();
+
+            self.library = ko.observableArray([]);
+
+            self.program = {
+                Id: ko.observable(0),
+                Email: ko.observable(""),
+                Created: ko.observable(""),
+                Exercises: ko.observableArray([]),
+                Greeting: ko.observable("")
+            };
+
+            self.programCount = ko.computed(function() {
+                return self.program.Exercises().length;
+            });
+
+            self.messages = ko.observableArray([]);
+
+            self.showVideo = function() {
+                var videoEmbed = $('#video-embed').clone();
+
+                $('iframe', videoEmbed).attr('src', 'https://player.vimeo.com/video/' + this.VideoId);
+                $('.modal-title').text(this.Name);
+                videoEmbed.show();
+
+                $('#video-preview-modal .modal-body').html(videoEmbed);
+                $('#video-preview-modal').modal('show');
+
+                $('#video-preview-modal').on('hidden.bs.modal', function() {
+
+                    $('#video-preview-modal .modal-body').html('');
+                });
+
+            };
+
+            self.transferToProgram = function() {
+
+                var copy = {};
+                jQuery.extend(copy, this);
+                self.program.Exercises.push(copy);
+
+                var name = this.Name;
+                addTimedMessage({ heading: 'Success!', icon: 'icon-ok', message: name + ' has been added to the Program.' });
+            };
+
+            self.clearMessage = function() {
+                self.messages.remove(this);
+            };
+
+            self.removeFromProgram = function() {
+                self.program.Exercises.remove(this);
+            };
+        };
+
+        var viewModel = new ViewModel();
+        var serverModel = @Html.Raw(JsonConvert.SerializeObject(Model))
+
+        //console.log(serverModel);
+
+        //mapping from server
+        if (serverModel.ExerciseSet != null && serverModel.ExerciseSet != undefined) {
+
+            viewModel.program.Id(serverModel.ExerciseSet.Id);
+            viewModel.program.Email(serverModel.ExerciseSet.Email);
+            viewModel.program.Created(serverModel.ExerciseSet.Created);
+            viewModel.program.Exercises(serverModel.ExerciseSet.Exercises);
+            viewModel.program.Greeting(serverModel.ExerciseSet.Greeting);
+        } else {
+            viewModel.program.Greeting(serverModel.Account.Settings.DefaultGreeting);
+        }
+
+        if (serverModel.ExerciseSet != null && serverModel.ExerciseSet.Name != "") {
+            viewModel.protocolName(serverModel.ExerciseSet.Name);
+        }
+
+        ko.applyBindings(viewModel);
+
+        function addTimedMessage(message) {
+            viewModel.messages.push(message);
+            self.setTimeout(function() { viewModel.messages.shift(); }, 4000);
+        }
+
+        $(function() {
+            $.getJSON('/library/search', function(data) {
+                viewModel.library(data);
+            });
+
+            function resetProgramPanel() {
+                viewModel.program.Exercises([]);
+                viewModel.program.Email('');
+                viewModel.program.Greeting('');
+                viewModel.protocolName('');
+            }
+
+            $('#edit-Protocol').click(function() {
+                var data = {};
+                data = ko.toJS(viewModel.program);
+                data.Name = viewModel.protocolName();
+
+                $.ajax({
+                    url: "/program-builder/edit/protocol",
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(b) {
+                        //resetProgramPanel();
+                        addTimedMessage({ heading: 'Protocol Edited!', icon: 'icon-ok', message: '' });
+                    }
+                });
+            });
+
+            $('.edit-Program').click(function() {
+                var data = {};
+                data = ko.toJS(viewModel.program);
+
+                if ($(this).attr('resend')) {
+                    data.resend = true;
+                }
+
+                $.ajax({
+                    url: "/Program-builder/edit/Program",
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(b) {
+                        if (data.resend === true) {
+                            addTimedMessage({ heading: 'Program Edited and Resent to Patient!', icon: 'icon-ok', message: '' });
+                        } else {
+                            addTimedMessage({ heading: 'Program Edited!', icon: 'icon-ok', message: '' });
+                        }
+
+                        window.location = '/programs';
+                    }
+                });
+            });
+
+            $('#add-program').click(function() {
+                var data = {};
+                data = ko.toJS(viewModel.program);
+
+                $.ajax({
+                    url: "/newprogram/",
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(b) {
+                        resetProgramPanel();
+                        addTimedMessage({ heading: 'Program Sent!', icon: 'icon-ok', message: '' });
+                    }
+                });
+            });
+
+            $('#new-protocol').click(function() {
+                var data = ko.toJS(viewModel.program);
+                data.Name = viewModel.protocolName();
+
+                $.ajax({
+                    url: "/program-builder/protocol/new",
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(b) {
+                        resetProgramPanel();
+                        addTimedMessage({ heading: 'Protocol Saved!', icon: 'icon-ok', message: '' });
+                    }
+                });
+            });
+
+
+            //$('#patient-email-input').typeahead({
+            //    items: 8,
+            //    minLength: 0,
+            //    source: function (query, process) {
+
+            //        $.getJSON('/patient/search/' + query, function (data) {
+
+            //            process(data);
+            //        });
+            //    }
+            //});
+
+
+        });
+
+        $('.typeahead').typeahead([
+            {
+                name: 'exercises',
+                header: '<strong>Exercises</strong>',
+                remote: '/library/typeahead/exercises?term=%QUERY',
+                template: '<p>{{value}}</p>',
+                engine: Hogan
+            },
+            {
+                name: 'categories',
+                header: '<strong>Categories</strong>',
+                remote: '/library/typeahead/categories?term=%QUERY',
+                template: '<p>{{value}}</p>',
+                engine: Hogan
+            },
+            {
+                name: 'protocols',
+                header: '<strong>Protocols</strong><br /><em>will autotomatically add all exercises in it to the current Program</em>',
+                remote: '/library/typeahead/protocols?term=%QUERY',
+                template: '<p>{{value}}</p>',
+                engine: Hogan
+            }]);
+
+        function itemSelected(event, datum) {
+
+            var url = "";
+            if (datum.type == "protocol") {
+                url = 'library/protocol/' + datum.protocolId;
+
+                $.getJSON(url, function(data) {
+                    viewModel.library(data);
+                    viewModel.program.Exercises(data);
+                });
+
+                return;
+            }
+
+            if (datum.type == "category") {
+                url = '/library/search/category/';
+            }
+
+            if (datum.type == "exercise") {
+                url = '/library/search/name/';
+            }
+
+            url = url + "?term=" + datum.value;
+
+            $.getJSON(url, function(data) {
+                viewModel.library(data);
+            });
+        }
+
+        $('.typeahead').on('typeahead:selected', function(datum, d) { itemSelected(datum, d); });
+        $('.typeahead').on('typeahead:autocompleted', function(datum, d) { itemSelected(datum, d); });
+
+    </script>
+}

@@ -1,0 +1,51 @@
+﻿@section PageTitle{
+    Contact Us
+}
+
+@section PageDescription{
+    Contact Us Page
+}
+
+@Html.Partial("AlertsAndErrors")
+
+<div class="row">
+    <div class="col col-sm-6">
+        <h3>Contact Details</h3>    
+        <p><strong>Phone: </strong> 860-778-2522</p>
+        <p><strong>Email: </strong><a href="mailto:john@movidhep.com">john@movidhep.com</a></p>
+    </div>
+    <div class="col col-sm-6">
+        
+@using(Html.BeginForm("Send", "Contact", FormMethod.Post, new{@class="form-horizontal"}))
+{
+    <h3>Send us a Message</h3>
+<div class="form-group">
+    <label for="inputName" class="col-md-2 control-label">Name</label>
+    <div class="col-md-10">
+        <input type="text" class="form-control" id="inputName" name="name" placeholder="Name">
+    </div>
+</div>
+<div class="form-group">
+    <label for="inputEmail" class="col-md-2 control-label">Email</label>
+    <div class="col-md-10">
+        <input type="text" class="form-control" id="inputEmail" name="email" placeholder="Email">
+    </div>
+</div>
+<div class="form-group">
+    <label for="inputMessage" class="col-md-2 control-label">Message</label>
+    <div class="col-md-10">
+        <textarea class="form-control" id="inputMessage" name="message" placeholder="Message"></textarea>
+    </div>
+  </div>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+      <button type="submit" class="btn btn-default">Send</button>
+    </div>
+  </div>
+
+}
+        
+
+    </div>
+
+</div>

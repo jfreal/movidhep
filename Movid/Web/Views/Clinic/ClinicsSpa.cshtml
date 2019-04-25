@@ -1,0 +1,260 @@
+﻿@model Movid.App.Models.ViewModels.ClinicWithUsersViewModel
+@{
+    ViewBag.Title = "Users";
+}
+<div ng-controller="clinicsCntrl">
+<div class="row" id="page-heading" >
+        <div class="col-md-8">
+            <h3>Clinic Management</h3>
+            <em>
+                Manage your clinics, invite or edit users and manage clinic settings.
+            </em>
+        </div>
+    </div>
+
+<div class="row bordered" >
+    <div class="col-md-12">
+        <div ng-view>
+            
+        </div>
+    </div>
+</div>
+</div>
+
+@section PageJs{
+    <script type="text/javascript">
+
+        movidApp.factory('clinicService', function($http) {
+            return {
+                getClinics: function() {
+                    return $http.get('/api/clinics', {cache: false}).then(function(r) {
+                        return r.data;
+                    });
+                },
+                addClinic: function(newClinic) {
+                    return $http.post('/api/clinics/add', newClinic).then(function (r) {
+                        return r.data;
+                    });
+                },
+                deleteClinic: function (clinicId) {
+                    return $http.post('/api/clinics/delete/' + clinicId).then(function (r) {
+                        return r.data;
+                    });
+                },
+                getClinic: function (clinicId) {
+                    return $http.get('/api/clinics/' + clinicId).then(function(r) {
+                        return r.data;
+                    });
+                },
+                saveClinic: function (clinic) {
+                    
+                    return $http.post('/api/clinic/save', clinic).then(function (r) {
+                        return r.data;
+                    });
+                }
+            };
+        });
+
+        movidApp.factory('userService', function($http) {
+            return {
+                addUser: function(newUser) {
+                    return $http.post('/api/users/add', newUser).then(function(r) {
+                        return r.data;
+                    });
+                },
+                getUser: function(userid) {
+                    return $http.get('/api/users/' + userid).then(function(r) {
+                        return r.data;
+                    });
+                },
+                saveUser: function(editedUser) {
+                    return $http.post('/api/users/edit', editedUser).then(function(r) {
+                        return r.data;
+                    });
+                },
+                resendInvitation: function(userId) {
+                    return $http.post('/api/users/resend-invitation', { id: userId }).then(function(r) {
+                        return r.data;
+                    });
+                }
+                
+            };
+        });
+
+        movidApp.config(function($routeProvider, $locationProvider) {
+
+            $locationProvider.baseHref = '/clinics/';
+
+            $routeProvider.when('/', {
+                templateUrl: '/template/clinics'
+            }).when('/adduser/:clinicId', {
+                templateUrl: '/template/adduser',
+                controller: 'addUserCntrl'
+            }).when('/clinic/add/', {
+                templateUrl: '/template/addclinic',
+                controller: 'addClinicCntrl'
+            }).when('/clinic/:clinicId/settings',{
+                templateUrl: '/template/clinicSettings',
+                controller: 'clinicSettingsCntrl'
+            }).when('/user/:userId/edit', {
+                templateUrl: '/template/editUser',
+                controller: 'editUserCntrl'
+            });
+        });
+
+
+        movidApp.controller('addUserCntrl', ['$scope', '$location', '$routeParams', 'userService', function($scope, $location, $routeParams, userService) {
+            $scope.addUser = function() {
+                if ($scope.newUserForm.$valid) {
+                    $scope.newUser.clinicId = $routeParams.clinicId;
+
+                    userService.addUser($scope.newUser).then(function(r) {
+                        
+                        if (r.success) {
+                        
+                            for (var i = 0; i < $scope.vm.clinics.length; i++) {
+                                var clinic = $scope.vm.clinics[i];
+                        
+                                if (clinic.details.id == $routeParams.clinicId) {
+                                    r.model.status = 'Invited';
+                                    clinic.users.push(r.model);
+                                }
+                        
+                            }
+
+                            $location.path("/");
+                        }
+                    });
+                }
+            };
+        }]);
+
+        movidApp.controller('editUserCntrl', ['$scope', '$location', '$routeParams', 'userService', '$upload', function ($scope, $location, $routeParams, userService, $upload) {
+            var userId = $routeParams.userId;
+            load(userId);
+
+            function load(id) {
+                userService.getUser(id).then(function(d) {
+                    $scope.editedUser = d;
+                });
+            }
+            
+            $scope.onFileSelect = function ($files) {
+                //$files: an array of files selected, each file has name, size, and type.
+                for (var i = 0; i < $files.length; i++) {
+                    var file = $files[i];
+
+                    $scope.upload = $upload.upload({
+                        url: '/api/user/attachment/' + userId,
+                        method: 'POST',
+                        file: file
+                    }).progress(function () {
+                        //console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                    }).success(function () {
+                        //just a hack to refresh the uploaded img
+                        var logoElem = document.getElementById("user-headshot");
+                        logoElem.src = logoElem.src + '?d=' + new Date().getTime();
+                    });
+                }
+            };
+
+            $scope.save = function () {
+                if ($scope.editUserForm.$valid) {
+                    userService.saveUser($scope.editedUser).then(function (d) {
+                        if (d.success) {
+                            $location.path("/");
+                            $scope.$emit('userUpdated', $scope.editedUser);
+                        }
+                    });
+                }
+            };
+        }]);
+
+        movidApp.controller('clinicSettingsCntrl', ['$scope', '$location', '$routeParams', 'clinicService', '$upload',
+            function ($scope, $location, $routeParams, clinicService, $upload) {
+
+            var clinicId = $routeParams.clinicId;
+                clinicService.getClinic(clinicId).then(function(d) {
+                $scope.clinic = d;
+            });
+
+            $scope.saveClinic = function() {
+                clinicService.saveClinic($scope.clinic).then(function (d) {
+                    $scope.$emit('clinicUpdated');
+                    $location.path("/");
+                });
+            };
+
+            $scope.onFileSelect = function ($files) {
+                //$files: an array of files selected, each file has name, size, and type.
+                for (var i = 0; i < $files.length; i++) {
+                    var file = $files[i];
+                    
+                    $scope.upload = $upload.upload({
+                        url: '/api/clinics/attachment/' + clinicId, 
+                         method: 'POST',
+                        file: file
+                    }).progress(function () {
+                        //console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                    }).success(function () {
+                        //just a hack to refresh the uploaded img
+                        var clinicLogoElem = document.getElementById("clinic-logo");
+                        clinicLogoElem.src = clinicLogoElem.src + '?d=' + new Date().getTime();
+                    });
+                }
+            };
+        }]);
+
+        movidApp.controller('addClinicCntrl', ['$scope','$location', 'clinicService', function ($scope, $location, clinicService) {
+            $scope.addClinic = function () {
+                if ($scope.newClinicForm.$valid) {
+                   
+                    clinicService.addClinic($scope.newClinic).then(function (r) {
+                        $location.path("/");
+
+                        //users comes back at empty because its not the vm
+                        r.model.users = [];
+                        $scope.vm.clinics.push(r.model);
+                    });
+                }
+            };
+        }]);
+
+        function clinicsCntrl($scope, $location, clinicService, userService) {
+            load();
+
+            $scope.$on('clinicUpdated', function (event, data) {
+                load();
+            });
+
+            $scope.$on('userUpdated', function (event, data) {
+                
+                angular.forEach($scope.vm.clinics, function (clinic, i) {
+                    angular.forEach(clinic.users, function (user, j) {
+                        if (user.id == data.id) {
+                            $scope.vm.clinics[i].users[j] = data;
+                        }
+                    });
+                });
+            });
+
+            function load() {
+                clinicService.getClinics().then(function (data) {
+                    $scope.vm = data;
+                });
+            }
+
+            $scope.deleteClinic = function (clinic) {
+                clinicService.deleteClinic(clinic.id).then(function (r) {
+                    $scope.vm.clinics.remove(clinic);
+                });
+            };
+
+            $scope.resendInvitation = function(user) {
+                userService.resendInvitation(user.id);
+            };
+
+        }
+
+    </script>
+}

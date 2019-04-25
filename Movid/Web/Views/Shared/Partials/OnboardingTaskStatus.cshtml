@@ -1,0 +1,15 @@
+﻿
+@using Movid.Shared
+@model string
+
+@{
+    if (((User) ViewBag.LoggedInUser).OnboardingTasks.Contains(Model))
+    {
+
+        <span style="color: #468847">Complete <i class="icon-ok" ></i></span>
+    }
+    else
+    {
+         <span style="color: #666">Incomplete <i class="icon-minus" ></i></span>
+    }
+}

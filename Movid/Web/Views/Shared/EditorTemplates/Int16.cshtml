@@ -1,0 +1,9 @@
+
+
+@{ string displayText = string.Empty;}
+ @if (Model != null)
+    {
+        displayText = Model.ToString();
+    }
+
+@(Html.TextBox("", displayText, new { @class = "numeric-only" }))

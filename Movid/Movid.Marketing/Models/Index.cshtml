@@ -1,0 +1,39 @@
+﻿@using System.Collections
+@using Movid.Shared
+@using Movid.Shared.Model
+@using Movid.Web.Models
+@model Movid.Web.Infrastructure.PagedList<Movid.Shared.Model.BlogEntry>
+
+
+    <h2>Movid's Blog</h2>
+
+<div id="blog-container">
+
+@foreach (var blog in Model)
+{
+    <div class="row-fluid">
+        
+        <div class="span12 blog-entry">
+            <h3>@blog.Title</h3>
+            <div class="media">
+                <img src="/Content/img/authors/@(blog.UserId).jpg"  class="pull-left img-circle"      />
+                <div class="media-body">
+                    By: @(((IEnumerable<User>)this.ViewBag.Authors).FirstOrDefault(x => x.Id.ToString() == @blog.UserId).Name)<br />
+                    Published On:<span class="blog-date">@blog.Published.ToShortDateString()</span>
+                </div>
+                 
+            </div>
+            <div class="blog-text">
+             @Html.Raw(blog.Text)
+             </div>
+            <div class="divider"></div>
+        </div>
+    </div>
+}
+    
+@Helpers.Pager(
+    Model.PageIndex, 
+    Model.TotalPages, 
+    x => Url.Action("index", new { page = x })
+)
+</div>

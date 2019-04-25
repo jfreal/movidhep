@@ -1,0 +1,27 @@
+﻿@model Movid.App.Controllers.Administration.ConfigViewerViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Config Settings</h2>
+
+<h3>RavenDb ConnectionString</h3>
+<p>
+    @Model.RavenConnectionString
+</p>
+
+<h3>App Settings</h3>
+<table class="table">
+    <tr>
+        <td>Key</td>
+        <td>Value</td>
+    </tr>
+    
+        @foreach (var setting in Model.AppSettings)
+        {
+            <tr>
+                <td>@setting.Key</td>
+                <td>@setting.Value</td>
+            </tr>
+        }
+</table>

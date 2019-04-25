@@ -1,0 +1,9 @@
+
+
+
+@{ string[] choices = (string[]) ViewData.ModelMetadata.AdditionalValues["RadioButtonOptions.Choices"];}
+
+
+@foreach( string choice in choices ){
+    @(choice)@(Html.RadioButton("", choice, choice == (Model ?? "").ToString()))<br />
+}

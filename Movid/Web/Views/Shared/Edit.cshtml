@@ -1,0 +1,15 @@
+
+<div id="content-wrapper">
+
+<div class="@(this.ViewContext.RouteData.Values["action"] + Model.GetType().Name)" >
+
+    <h2>Edit</h2>
+    <a href="@Url.Action("List")" >Back to Grid</a>
+    <div class="form-horizontal">
+        @using(Html.BeginForm()){
+            @Html.EditorForModel()
+            <input type="submit" value="Save Changes" class="btn btn-blue fifteen-margin-top" /> <span>* Required Field</span>
+        }        
+    </div>
+</div>
+</div>
