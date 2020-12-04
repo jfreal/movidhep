@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using Movid.App.Infrastructure.Raven;
+﻿using Movid.App.Infrastructure.Raven;
 using Movid.App.Models;
 using Movid.Shared.Model;
-using Raven.Client;
-using Raven.Client.Linq;
+using Raven.Client.Documents.Linq;
+using Raven.Client.Documents.Session;
 
 namespace Movid.App.Application
 {

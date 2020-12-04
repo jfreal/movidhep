@@ -1,20 +1,18 @@
-﻿using System.Configuration;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Movid.App.Application;
+﻿using Movid.App.Application;
 using Movid.App.Controllers.Api.Filters;
-using Movid.App.Infrastructure;
+using Movid.App.Infrastructure.Emails;
 using Movid.App.Models;
 using Movid.App.Models.Api;
 using Movid.App.Models.ViewModels;
 using Movid.Shared;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
-using Raven.Json.Linq;
-using Movid.App.Infrastructure.Emails;
 
 namespace Movid.App.Controllers.Api
 {

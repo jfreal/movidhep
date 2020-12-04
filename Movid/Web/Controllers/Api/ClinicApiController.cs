@@ -1,10 +1,7 @@
-﻿using Movid.App.Application;
-using Movid.App.Models;
+﻿using Movid.App.Models;
 using Movid.App.Models.Api;
 using Movid.App.Models.ViewModels;
 using Movid.Shared;
-using Raven.Client.Linq;
-using Raven.Json.Linq;
 using System.Linq;
 using System.Net;
 using System.Net.Http;

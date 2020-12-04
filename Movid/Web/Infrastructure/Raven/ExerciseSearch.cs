@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using Movid.Shared.Model;
-using Raven.Abstractions.Indexing;
-using Raven.Client.Indexes;
+﻿using Movid.Shared.Model;
+using Raven.Client.Documents.Indexes;
+using System.Linq;
 
 namespace Movid.App.Infrastructure.Raven
 {
@@ -19,7 +18,7 @@ namespace Movid.App.Infrastructure.Raven
 
         public MasterExerciseSearch()
         {
-            Index("Query", FieldIndexing.Analyzed);
+            Index("Query", FieldIndexing.Default);
 
             Map = exercises => from exer in exercises
                                from cat in exer.Categories

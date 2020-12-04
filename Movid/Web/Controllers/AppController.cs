@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Movid.App.Application;
-using Movid.Shared.Model;
-using Raven.Client.Linq;
+﻿using Movid.App.Application;
+using System.Collections.Generic;
 
 namespace Movid.App.Controllers
 {

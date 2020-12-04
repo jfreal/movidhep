@@ -19,7 +19,7 @@ namespace Movid.App.Infrastructure
             largeThumb.Position = 0;
             smallThumb.Position = 0;
             MvcApplication.Store.DatabaseCommands.PutAttachment("largethumb/" + id, null, largeThumb, new RavenJObject() { });
-            MvcApplication.Store.DatabaseCommands.PutAttachment("smallthumb/" + id, null, smallThumb, new RavenJObject() { });
+            MvcApplication.Store..PutAttachment("smallthumb/" + id, null, smallThumb, new RavenJObject() { });
 
             return true;
         }

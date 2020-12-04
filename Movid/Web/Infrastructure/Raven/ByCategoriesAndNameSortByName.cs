@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using Movid.Shared.Model;
-using Raven.Abstractions.Indexing;
-using Raven.Client.Indexes;
+﻿using Movid.Shared.Model;
+using Raven.Client.Documents.Indexes;
+using System.Linq;
 
 namespace Movid.App.Infrastructure.Raven
 {
@@ -9,8 +8,8 @@ namespace Movid.App.Infrastructure.Raven
     {
         public ByCategoriesAndNameSortByName()
         {
-            Index("Name", FieldIndexing.Analyzed);
-            Index("Categories", FieldIndexing.Analyzed);
+            Index("Name", FieldIndexing.Default);
+            Index("Categories", FieldIndexing.Default);
 
             Map = exercises => from exercise in exercises
                                orderby exercise.Name

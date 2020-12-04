@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Movid.Marketing;
+using Raven.Client.Documents.Session;
+using System.Collections.Generic;
 using System.Web.Mvc;
-using Movid.Marketing;
-using Raven.Client;
 
 namespace Marketing.Controllers
 {

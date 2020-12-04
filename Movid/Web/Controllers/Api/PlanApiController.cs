@@ -149,7 +149,7 @@ namespace Movid.App.Controllers.Api
 
     public class PlanViewModel
     {
-        public PlanViewModel(StripePlan stripePlan)
+        public PlanViewModel(Stripe.Plan stripePlan)
         {
             StripePlan = stripePlan;
             if (stripePlan.Id == "Free")
@@ -179,7 +179,7 @@ namespace Movid.App.Controllers.Api
 
         public int Quantity { get; set; }
 
-        public StripePlan StripePlan { get; set; }
+        public Stripe.Plan StripePlan { get; set; }
 
         public bool HasQuantity { get; set; }
         public string QuantityString { get; set; }

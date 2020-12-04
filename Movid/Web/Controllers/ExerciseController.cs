@@ -4,10 +4,7 @@ using Movid.App.Infrastructure;
 using Movid.App.Infrastructure.Raven;
 using Movid.Shared.Model;
 using Movid.Shared.PagedList;
-using Raven.Abstractions.Data;
-using Raven.Client;
-using Raven.Client.Linq;
-using Raven.Json.Linq;
+using Raven.Client.Documents.Queries.Suggestions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +18,7 @@ namespace Movid.App.Controllers
         public StaticPagedList<Exercise> Results { get; set; }
         public string SearchTerm { get; set; }
         public int Page { get; set; }
-        public SuggestionQueryResult SuggestionQueryResult { get; set; }
+        public SuggestionResult SuggestionQueryResult { get; set; }
     }
 
     [Authorize]

@@ -6,6 +6,7 @@ using System.Web.Http;
 using Movid.App.Models;
 using Movid.Shared;
 using Raven.Client;
+using Raven.Client.Documents.Session;
 
 namespace Movid.App.Controllers.Api
 {

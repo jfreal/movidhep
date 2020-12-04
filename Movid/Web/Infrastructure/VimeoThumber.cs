@@ -1,13 +1,12 @@
-﻿using System;
-using System.Drawing;
+﻿using ImageResizer;
+using Newtonsoft.Json.Linq;
+using System;
 using System.IO;
 using System.Net;
-using ImageResizer;
-using Raven.Imports.Newtonsoft.Json.Linq;
 
 namespace Movid.App.Infrastructure
 {
-        public class Vimeo
+    public class Vimeo
         {
             public MemoryStream GenerateThumbnail(string videoId, int size)
             {

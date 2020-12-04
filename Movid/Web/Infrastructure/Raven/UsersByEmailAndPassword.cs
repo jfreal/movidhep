@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using Movid.Shared;
-using Raven.Client.Indexes;
+﻿using Movid.Shared;
+using Raven.Client.Documents.Indexes;
+using System.Linq;
 
 namespace Movid.App.Infrastructure.Raven
 {

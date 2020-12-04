@@ -1,6 +1,4 @@
 ﻿using Movid.App.Models;
-using Movid.Shared.Model;
-using Raven.Imports.Newtonsoft.Json.Linq;
 
 namespace Movid.App.Infrastructure
 {

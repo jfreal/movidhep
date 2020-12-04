@@ -3,6 +3,7 @@ using Movid.App.Models;
 using Movid.Shared;
 using Movid.Shared.Model;
 using Raven.Client;
+using Raven.Client.Documents.Session;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;

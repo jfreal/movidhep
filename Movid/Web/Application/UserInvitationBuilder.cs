@@ -1,6 +1,7 @@
 ﻿using Movid.App.Models;
 using Movid.Shared;
 using Raven.Client;
+using Raven.Client.Documents.Session;
 
 namespace Movid.App.Application
 {

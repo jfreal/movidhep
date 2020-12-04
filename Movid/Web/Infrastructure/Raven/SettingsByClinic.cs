@@ -1,8 +1,4 @@
-﻿using System.Linq;
-using Movid.Shared;
-using Raven.Client.Indexes;
-
-namespace Movid.App.Infrastructure.Raven
+﻿namespace Movid.App.Infrastructure.Raven
 {
     //public class SettingsByClinic : AbstractIndexCreationTask<Clinic>
     //{

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Movid.Shared.Model;
-using Raven.Client.Indexes;
+﻿using Movid.Shared.Model;
+using Raven.Client.Documents.Indexes;
 using System.Linq;
 
 namespace Movid.App.Infrastructure.Raven

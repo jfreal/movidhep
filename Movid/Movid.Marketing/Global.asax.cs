@@ -1,20 +1,7 @@
-﻿using System.Reflection;
+﻿using Movid.Marketing.Application;
+using Raven.Client.Documents;
 using System.Web.Mvc;
 using System.Web.Routing;
-
-using Brainnom.Core.ObjectSummary;
-using Brainnom.Core.ObjectSummary.KeyProviders;
-using Movid.Marketing.Application;
-using Movid.Shared.Infrastructure;
-using Movid.Shared.Infrastructure.Conventions;
-
-using Movid.Web.Conventions;
-using Movid.Web.Conventions.Validation;
-using Movid.Web.Infrastructure;
-using Movid.Web.Infrastructure.Conventions;
-using Movid.Web.Infrastructure.DescriptionProviders;
-using Raven.Client.Document;
-using Raven.Client.Indexes;
 
 namespace Movid.Marketing
 {

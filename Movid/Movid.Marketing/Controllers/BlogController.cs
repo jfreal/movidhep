@@ -1,12 +1,9 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-
-using Marketing.Controllers;
-using Movid.Shared;
+﻿using Marketing.Controllers;
 using Movid.Shared.Model;
 using Movid.Web.Infrastructure;
-using Raven.Client;
-using Raven.Client.Linq;
+using Raven.Client.Documents.Session;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace Movid.Marketing.Controllers
 {
@@ -17,7 +14,7 @@ namespace Movid.Marketing.Controllers
         {
             int pageSize = 2;
 
-            RavenQueryStatistics stats;
+            QueryStatistics stats;
             var blogPosts = RavenSession.Query<BlogEntry>()
                                 .Statistics(out stats)
                                 .OrderBy(c => c.Published)

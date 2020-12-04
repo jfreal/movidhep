@@ -7,6 +7,7 @@ using Marketing.Controllers;
 using Movid.Shared.Model;
 using Movid.Shared.PagedList;
 using Raven.Client;
+using Raven.Client.Documents.Session;
 
 namespace Movid.Marketing.Controllers
 {
@@ -25,7 +26,7 @@ namespace Movid.Marketing.Controllers
 
             var size = 10;
 
-            RavenQueryStatistics stats;
+            QueryStatistics  stats;
             var exercises = RavenSession
                 .Query<Exercise>()
                 .Statistics(out stats)
@@ -51,7 +52,7 @@ namespace Movid.Marketing.Controllers
 
             var size = 10;
 
-            RavenQueryStatistics stats;
+            QueryStatistics  stats;
             var exercises = RavenSession
                 .Query<Exercise>("ByCategoriesAndNameSortByName")
                 .Statistics(out stats)
