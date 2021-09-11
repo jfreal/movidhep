@@ -1,3 +1,7 @@
+# This is an old project from 2014/2015 #
+
+I left the company and moved on to other things.  The people who took the company over ended up shutting the company down.  I asked the old owners for the code for nostalgia purposes.  I loved this project.  Although nothing worked out like I thought it would, the journey was the real reward.
+
 # General #
 
 Movid HEP is a SAAS product sold to physical therapy clinics for a monthly fee.
